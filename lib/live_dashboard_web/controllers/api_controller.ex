@@ -104,9 +104,13 @@ defmodule LiveDashboardWeb.APIController do
     query = "select
               count(*) as count
             from ve_livraisons_ln with(nolock)
-            inner join ve_livraisons with(nolock) on ve_livraisons.id = ve_livraisons_ln.ve_livraisons_id
+            --inner join ve_livraisons with(nolock) on ve_livraisons.id = ve_livraisons_ln.ve_livraisons_id
             where  ve_livraisons_ln.created_date >= DATEADD(HOUR, 5, CAST(CAST(GETDATE() AS DATE) AS DATETIME))
-              and ve_livraisons_ln.created_by in ('EXPEDITION1', 'EXPEDITION2', 'EXPEDITION3')"
+              and (
+					ve_livraisons_ln.created_by = 'EXPEDITION1'
+					or ve_livraisons_ln.created_by = 'EXPEDITION2'
+					or ve_livraisons_ln.created_by = 'EXPEDITION3'
+					)"
     value = fetch_query(query)
     json(conn, %{value: value})
   end
