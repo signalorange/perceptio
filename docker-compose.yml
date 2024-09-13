@@ -6,7 +6,7 @@ services:
       PHX_HOST: 0.0.0.0
     env_file:
       - .env
-    retart: unless-stopped
+    restart: unless-stopped
     ports:
       - '80:4000'
     volumes:
