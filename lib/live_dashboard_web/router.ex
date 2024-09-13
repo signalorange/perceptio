@@ -16,7 +16,7 @@ defmodule LiveDashboardWeb.Router do
 
   scope "/", LiveDashboardWeb do
     pipe_through :browser
-
+    get "/", RedirectController, :redirector
     live "/entrepot", IndicatorLive.Indicators
   end
 
@@ -34,4 +34,12 @@ defmodule LiveDashboardWeb.Router do
     get "/nb_commandes_ln_faites", APIController, :nb_commandes_ln_faites
     get "/nb_commandes_ln_livrees", APIController, :nb_commandes_ln_livrees
   end
+end
+
+defmodule LiveDashboardWeb.RedirectController do
+  use LiveDashboardWeb, :controller
+  @send_to "/entrepot"
+
+  def redirector(conn, _params), do: redirect(conn, to: @send_to)
+
 end
