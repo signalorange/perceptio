@@ -1,0 +1,285 @@
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div class="container mx-auto w-full">
+
+  <div class="grid grid-cols-3 gap-4">
+    <!-- Chart 1 -->
+    <div class="bg-white shadow-md rounded-lg p-3 col-span-1">
+    <h2 class="text-xl font-semibold mb-4">État des lignes de commandes</h2>
+      <div class="chart-container">
+        <canvas id="pie-chart" width="1500" height="1500"></canvas>
+        <!--<progress value="45" max="100" class="w-full">15%</progress>-->
+      </div>    
+    </div>
+    <!-- Chart 2 -->
+    <div class="bg-white shadow-md rounded-lg p-3 col-span-1">
+      <h2 class="text-xl font-semibold mb-4">Lignes de commandes par <b>Types</b></h2>
+      <div class="chart-container">
+        <canvas id="cable-chart" width="1500" height="1500"></canvas>
+      </div>
+    </div>
+    <!-- Chart 5 -->
+    <div class="bg-white shadow-md rounded-lg p-3 col-span-1">
+      <h2 class="text-xl font-semibold mb-4">Lignes de commandes par <b>Routes</b></h2>
+      <div class="chart-container">
+        <canvas id="route-chart" width="1500" height="1500"></canvas>
+      </div>
+    </div>
+    <!-- Chart 4 -->
+    <%!-- <div class="bg-white shadow-md rounded-lg p-3 col-span-1">
+      <h2 class="text-xl font-semibold mb-4">Moyenne de pick à l'heure</h2>
+      <div class="flex flex-col items-center justify-center pt-6">
+        <span class="text-9xl font-bold text-blue-600 mb-4" id="moyenne"><%= @indicators.moyenne %></span>
+      </div>
+    </div> --%>
+  </div>
+</div>
+<div class="container mx-auto py-20 w-full">
+  <div class="grid grid-cols-3 gap-4">
+  <div></div>
+  <div style="text-align: center;"><span>Perceptio - 2024-latest-1</span></div>
+  <div></div>
+</div>
+</div>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const ctx = document.getElementById('pie-chart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: [ 'Livrées', 'Pickées',  'Imprimées','À faire'],
+        datasets: [{
+          label: 'Lignes',
+          data: [ 0, 0, 0, 0],
+          backgroundColor: [
+            'rgba(75, 192, 192, 0.75)',
+            'rgba(54, 162, 235, 0.75)', 
+            //'rgba(255, 205, 86, 0.75)', 
+            'rgba(255, 159, 64, 0.75)', 
+            'rgba(255, 99, 132, 0.75)'],
+          borderColor: '#ffffff',
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          r: {
+            pointLabels: {
+              display: true,
+              centerPointLabels: true,
+              font: {
+                size: 18
+              }
+            }
+          },
+          y: {
+          stacked: true,
+          beginAtZero: true,
+          //type: 'logarithmic',
+        }
+        },
+        plugins: {
+          legend: {
+            display: false,
+          }
+        }
+      }
+    });
+    // Stacked chart for Lignes de câbles
+  const cableCtx = document.getElementById('cable-chart').getContext('2d');
+  const types = new Chart(cableCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Stock','Câbles', 'EXT'],
+      datasets: [
+        {
+          label: 'Pickées',
+          data: [0, 0, 0],
+          backgroundColor: 'rgba(54, 162, 235, 0.75)',
+          //stack: 'Pickées',
+        },
+        {
+          label: 'Imprimées',
+          data: [0, 0, 0],
+          backgroundColor: 'rgba(255, 159, 64, 0.75)',
+          //stack: 'Imprimées',
+        },
+        {
+          label: 'À faire',
+          data: [0, 0, 0],
+          backgroundColor: 'rgba(255, 99, 132, 0.75)',
+          //stack: 'À faire',
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: {
+          stacked: true,
+        },
+        y: {
+          stacked: true,
+          beginAtZero: true,
+          //type: 'logarithmic',
+        }
+      },
+      plugins: {
+        legend: {
+            display: false,
+          }
+      }
+    }
+  });
+    // Stacked chart for routes
+  const routeCtx = document.getElementById('route-chart').getContext('2d');
+  const routes = new Chart(routeCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Autres', 'Routes 300','Routes 100'],
+      datasets: [
+         {
+          label: 'Pickées',
+          data: [0, 0, 0],
+          backgroundColor: 'rgba(54, 162, 235, 0.75)',
+          //stack: 'Pickées',
+        },
+        {
+          label: 'Imprimées',
+          data: [0, 0, 0],
+          backgroundColor: 'rgba(255, 159, 64, 0.75)',
+          //stack: 'Imprimées',
+        },
+        {
+          label: 'À faire',
+          data: [0, 0, 0],
+          backgroundColor: 'rgba(255, 99, 132, 0.75)',
+          //stack: 'À faire',
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: {
+          stacked: true,
+        },
+        y: {
+          stacked: true,
+          beginAtZero: true,
+          //type: 'logarithmic',
+        }
+      },
+      plugins: {
+        legend: {
+            display: false,
+          }
+      }
+    }
+  });
+  // Function to fetch data from the API
+  function fetchData() {
+    fetch('/api/nb_commandes_ln_afaire')
+      .then(response => response.json())  // Parse JSON response
+      .then(data => {
+        // Update the DOM with the fetched data
+        chart.data.datasets[0].data[3] = data.value;
+        chart.update()
+      })
+    fetch('/api/nb_commandes_ln_printed')
+      .then(response => response.json())  // Parse JSON response
+      .then(data => {
+        // Update the DOM with the fetched data
+        chart.data.datasets[0].data[2] = data.value;
+        chart.update()
+      })
+    fetch('/api/nb_commandes_ln_faites')
+      .then(response => response.json())  // Parse JSON response
+      .then(data => {
+        // Update the DOM with the fetched data
+        chart.data.datasets[0].data[1] = data.value;
+        chart.update()
+      })
+
+    fetch('/api/nb_commandes_ln_livrees')
+      .then(response => response.json())  // Parse JSON response
+      .then(data => {
+        // Update the DOM with the fetched data
+        chart.data.datasets[0].data[0] = data.value;
+        chart.update()
+      })
+    // chart par types
+    fetch('/api/nb_commandes_ln_types')
+      .then(response => response.json())  // Parse JSON response
+      .then(data => {
+        // Update the DOM with the fetched data
+
+        let stocks = data.findIndex(item => item.type === 0);
+        let cables = data.findIndex(item => item.type === 1);
+        let exts = data.findIndex(item => item.type === 2);
+        
+        if(typeof data[stocks] !== 'undefined'){
+            types.data.datasets[0].data[0] = data[stocks].completees;
+            types.data.datasets[1].data[0] = data[stocks].imprimees;
+            types.data.datasets[2].data[0] = data[stocks].afaire;
+        }
+        
+        if(typeof data[cables] !== 'undefined'){
+            types.data.datasets[0].data[1] = data[cables].completees;
+            types.data.datasets[1].data[1] = data[cables].imprimees;
+            types.data.datasets[2].data[1] = data[cables].afaire;
+        }
+
+        if(typeof data[exts] !== 'undefined'){
+            types.data.datasets[0].data[2] = data[exts].completees;
+            types.data.datasets[1].data[2] = data[exts].imprimees;
+            types.data.datasets[2].data[2] = data[exts].afaire;
+        }
+
+        types.data.datasets[0].data[2] = data.value;
+        types.update()
+      })
+    // chart par routes
+    fetch('/api/nb_commandes_ln_routes')
+      .then(response => response.json())  // Parse JSON response
+      .then(data => {
+        // Update the DOM with the fetched data
+
+        let autres = data.findIndex(item => item.type === 'AUTRES');
+        let routes300 = data.findIndex(item => item.type === 'ROUTES 300');
+        let routes100 = data.findIndex(item => item.type === 'ROUTES 100');
+        
+        if(typeof autres !== 'undefined'){
+            routes.data.datasets[0].data[0] = data[autres].completees;
+            routes.data.datasets[1].data[0] = data[autres].imprimees;
+            routes.data.datasets[2].data[0] = data[autres].afaire;
+        }
+
+        if(typeof routes300 !== 'undefined'){
+            routes.data.datasets[0].data[1] = data[routes300].completees;
+            routes.data.datasets[1].data[1] = data[routes300].imprimees;
+            routes.data.datasets[2].data[1] = data[routes300].afaire;
+        }
+        
+        if(typeof routes100 !== 'undefined'){
+            routes.data.datasets[0].data[2] = data[routes100].completees;
+            routes.data.datasets[1].data[2] = data[routes100].imprimees;
+            routes.data.datasets[2].data[2] = data[routes100].afaire;
+        }
+
+        routes.data.datasets[0].data[2] = data.value;
+        routes.update()
+      })
+
+  }
+
+  // Call fetchData on page load
+  fetchData();
+
+  // Optionally, you can refresh the data periodically (e.g., every 5 seconds)
+  setInterval(fetchData, 5000*60);  // 5 minutes interval
+  });
+</script>
