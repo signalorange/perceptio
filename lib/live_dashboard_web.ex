@@ -89,6 +89,7 @@ defmodule LiveDashboardWeb do
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
+      use PetalComponents
       # defmodule PC do
       #   defdelegate accordion(assigns), to: PetalComponents.Accordion
       #   defdelegate alert(assigns), to: PetalComponents.Alert

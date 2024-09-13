@@ -23,7 +23,7 @@ defmodule LiveDashboardWeb.Endpoint do
     at: "/",
     from: :live_dashboard,
     gzip: false,
-    only: LiveDashboardWeb.static_paths()
+    only: ~w(css fonts assets images js icons robots.txt)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.

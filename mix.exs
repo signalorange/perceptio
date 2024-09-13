@@ -76,7 +76,7 @@ defmodule LiveDashboard.MixProject do
       "assets.deploy": [
         "tailwind live_dashboard --minify",
         "esbuild live_dashboard --minify",
-        "phx.digest"
+        "phx.digest",
       ]
     ]
   end

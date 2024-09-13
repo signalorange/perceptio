@@ -61,7 +61,8 @@ config :live_dashboard, LiveDashboardWeb.Endpoint,
       ~r"priv/gettext/.*(po)$",
       ~r"lib/live_dashboard_web/(controllers|live|components)/.*(ex|heex)$"
     ]
-  ]
+  ],
+  tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
 
 # Enable dev routes for dashboard and mailbox
 config :live_dashboard, dev_routes: true
