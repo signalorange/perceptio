@@ -34,6 +34,10 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
+    const rouge = 'rgba(242, 19, 19, 0.75)'
+    const orange = 'rgba(255, 143, 0, 0.75)'
+    const bleu = 'rgba(33, 150, 243, 0.75)'
+    const vert = 'rgba(76, 175, 80, 0.75)'
     const ctx = document.getElementById('pie-chart').getContext('2d');
     const chart = new Chart(ctx, {
       type: 'bar',
@@ -43,11 +47,11 @@
           label: 'Lignes',
           data: [ 0, 0, 0, 0],
           backgroundColor: [
-            'rgba(75, 192, 192, 0.75)',
-            'rgba(54, 162, 235, 0.75)', 
+            vert,
+            bleu, 
             //'rgba(255, 205, 86, 0.75)', 
-            'rgba(255, 159, 64, 0.75)', 
-            'rgba(255, 99, 132, 0.75)'],
+            orange, 
+            rouge],
           borderColor: '#ffffff',
           borderWidth: 2
         }]
@@ -87,19 +91,19 @@
         {
           label: 'Pickées',
           data: [0, 0, 0],
-          backgroundColor: 'rgba(54, 162, 235, 0.75)',
+          backgroundColor: bleu,
           //stack: 'Pickées',
         },
         {
           label: 'Imprimées',
           data: [0, 0, 0],
-          backgroundColor: 'rgba(255, 159, 64, 0.75)',
+          backgroundColor: orange,
           //stack: 'Imprimées',
         },
         {
           label: 'À faire',
           data: [0, 0, 0],
-          backgroundColor: 'rgba(255, 99, 132, 0.75)',
+          backgroundColor: rouge,
           //stack: 'À faire',
         }
       ]
@@ -133,19 +137,19 @@
          {
           label: 'Pickées',
           data: [0, 0, 0],
-          backgroundColor: 'rgba(54, 162, 235, 0.75)',
+          backgroundColor: bleu,
           //stack: 'Pickées',
         },
         {
           label: 'Imprimées',
           data: [0, 0, 0],
-          backgroundColor: 'rgba(255, 159, 64, 0.75)',
+          backgroundColor: orange,
           //stack: 'Imprimées',
         },
         {
           label: 'À faire',
           data: [0, 0, 0],
-          backgroundColor: 'rgba(255, 99, 132, 0.75)',
+          backgroundColor: rouge,
           //stack: 'À faire',
         }
       ]
