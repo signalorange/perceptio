@@ -1,10 +1,10 @@
-<div class="container mx-auto w-full pt-20">
+<div class="container mx-auto pt-20">
   <div class="grid grid-cols-3 gap-4">
     <!-- Chart 1 -->
     <div class="bg-white shadow-md rounded-lg p-3 col-span-1">
-    <h2 class="text-xl font-semibold mb-4">État des lignes de commandes</h2>
+    <h2 class="text-xl font-semibold mb-4">État des <b>lignes</b> de commandes</h2>
       <div class="chart-container">
-        <canvas id="pie-chart" width="1500" height="1500"></canvas>
+        <canvas id="pie-chart" width="600" height="600"></canvas>
         <!--<progress value="45" max="100" class="w-full">15%</progress>-->
       </div>    
     </div>
@@ -12,14 +12,14 @@
     <div class="bg-white shadow-md rounded-lg p-3 col-span-1">
       <h2 class="text-xl font-semibold mb-4">Lignes de commandes par <b>Types</b></h2>
       <div class="chart-container">
-        <canvas id="cable-chart" width="1500" height="1500"></canvas>
+        <canvas id="cable-chart" width="600" height="600"></canvas>
       </div>
     </div>
     <!-- Chart 5 -->
     <div class="bg-white shadow-md rounded-lg p-3 col-span-1">
       <h2 class="text-xl font-semibold mb-4">Lignes de commandes par <b>Routes</b></h2>
       <div class="chart-container">
-        <canvas id="route-chart" width="1500" height="1500"></canvas>
+        <canvas id="route-chart" width="600" height="600"></canvas>
       </div>
     </div>
     <!-- Chart 4 -->
@@ -34,10 +34,10 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const rouge = 'rgba(242, 19, 19, 0.75)'
-    const orange = 'rgba(255, 143, 0, 0.75)'
-    const bleu = 'rgba(33, 150, 243, 0.75)'
-    const vert = 'rgba(76, 175, 80, 0.75)'
+    const rouge = 'rgba(232, 0, 0, 1)'
+    const orange = 'rgba(255, 143, 0, 1)'
+    const bleu = 'rgba(24, 134, 224, 1)'
+    const vert = 'rgba(76, 175, 80, 1)'
     const ctx = document.getElementById('pie-chart').getContext('2d');
     const chart = new Chart(ctx, {
       type: 'bar',
@@ -93,12 +93,22 @@
           data: [0, 0, 0],
           backgroundColor: bleu,
           //stack: 'Pickées',
+          borderWidth: 1,
+          borderColor: 'white',
+          borderWidth: {
+            top: 1,
+          }
         },
         {
           label: 'Imprimées',
           data: [0, 0, 0],
           backgroundColor: orange,
           //stack: 'Imprimées',
+          borderWidth: 1,
+          borderColor: 'white',
+          borderWidth: {
+            top: 1,
+          }
         },
         {
           label: 'À faire',
@@ -138,19 +148,19 @@
           label: 'Pickées',
           data: [0, 0, 0],
           backgroundColor: bleu,
-          //stack: 'Pickées',
+          stack: 'Pickées',
         },
         {
           label: 'Imprimées',
           data: [0, 0, 0],
           backgroundColor: orange,
-          //stack: 'Imprimées',
+          stack: 'Imprimées',
         },
         {
           label: 'À faire',
           data: [0, 0, 0],
           backgroundColor: rouge,
-          //stack: 'À faire',
+          stack: 'À faire',
         }
       ]
     },
@@ -175,33 +185,17 @@
   });
   // Function to fetch data from the API
   function fetchData() {
-    fetch('/api/nb_commandes_ln_afaire')
+    // chart par types
+    fetch('/api/nb_commandes_ln')
       .then(response => response.json())  // Parse JSON response
       .then(data => {
         // Update the DOM with the fetched data
-        chart.data.datasets[0].data[3] = data.value;
-        chart.update()
-      })
-    fetch('/api/nb_commandes_ln_printed')
-      .then(response => response.json())  // Parse JSON response
-      .then(data => {
-        // Update the DOM with the fetched data
-        chart.data.datasets[0].data[2] = data.value;
-        chart.update()
-      })
-    fetch('/api/nb_commandes_ln_faites')
-      .then(response => response.json())  // Parse JSON response
-      .then(data => {
-        // Update the DOM with the fetched data
-        chart.data.datasets[0].data[1] = data.value;
-        chart.update()
-      })
-
-    fetch('/api/nb_commandes_ln_livrees')
-      .then(response => response.json())  // Parse JSON response
-      .then(data => {
-        // Update the DOM with the fetched data
-        chart.data.datasets[0].data[0] = data.value;
+        if(typeof data[0] !== 'undefined'){
+            chart.data.datasets[0].data[0] = data[0].livrees;
+            chart.data.datasets[0].data[1] = data[0].completees;
+            chart.data.datasets[0].data[2] = data[0].imprimees;
+            chart.data.datasets[0].data[3] = data[0].afaire;
+        }
         chart.update()
       })
     // chart par types
@@ -232,7 +226,7 @@
             types.data.datasets[2].data[2] = data[exts].afaire;
         }
 
-        types.data.datasets[0].data[2] = data.value;
+        //types.data.datasets[0].data[2] = data.value;
         types.update()
       })
     // chart par routes
@@ -263,7 +257,7 @@
             routes.data.datasets[2].data[2] = data[routes100].afaire;
         }
 
-        routes.data.datasets[0].data[2] = data.value;
+        //routes.data.datasets[0].data[2] = data.value;
         routes.update()
       })
 
