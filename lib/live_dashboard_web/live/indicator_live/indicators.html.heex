@@ -208,19 +208,19 @@
         let cables = data.findIndex(item => item.type === 1);
         let exts = data.findIndex(item => item.type === 2);
         
-        if(typeof data[stocks] !== 'undefined'){
+        if(typeof data[stocks] !== 'undefined' and stocks !== -1){
             types.data.datasets[0].data[0] = data[stocks].completees;
             types.data.datasets[1].data[0] = data[stocks].imprimees;
             types.data.datasets[2].data[0] = data[stocks].afaire;
         }
         
-        if(typeof data[cables] !== 'undefined'){
+        if(typeof data[cables] !== 'undefined' and cables !== -1){
             types.data.datasets[0].data[1] = data[cables].completees;
             types.data.datasets[1].data[1] = data[cables].imprimees;
             types.data.datasets[2].data[1] = data[cables].afaire;
         }
 
-        if(typeof data[exts] !== 'undefined'){
+        if(typeof data[exts] !== 'undefined' and exts !== -1){
             types.data.datasets[0].data[2] = data[exts].completees;
             types.data.datasets[1].data[2] = data[exts].imprimees;
             types.data.datasets[2].data[2] = data[exts].afaire;
@@ -239,19 +239,19 @@
         let routes300 = data.findIndex(item => item.type === 'ROUTES 300');
         let routes100 = data.findIndex(item => item.type === 'ROUTES 100');
         
-        if(typeof autres !== 'undefined'){
+        if(typeof data[autres] !== 'undefined' and autres !== -1){
             routes.data.datasets[0].data[0] = data[autres].completees;
             routes.data.datasets[1].data[0] = data[autres].imprimees;
             routes.data.datasets[2].data[0] = data[autres].afaire;
         }
 
-        if(typeof routes300 !== 'undefined'){
+        if(typeof data[routes300] !== 'undefined' and routes300 !== -1){
             routes.data.datasets[0].data[1] = data[routes300].completees;
             routes.data.datasets[1].data[1] = data[routes300].imprimees;
             routes.data.datasets[2].data[1] = data[routes300].afaire;
         }
         
-        if(typeof routes100 !== 'undefined'){
+        if(typeof data[routes100] !== 'undefined' and routes300 !== -1){
             routes.data.datasets[0].data[2] = data[routes100].completees;
             routes.data.datasets[1].data[2] = data[routes100].imprimees;
             routes.data.datasets[2].data[2] = data[routes100].afaire;
