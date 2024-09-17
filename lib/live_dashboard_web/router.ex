@@ -33,6 +33,8 @@ defmodule LiveDashboardWeb.Router do
     get "/nb_commandes_ln_encours", APIController, :nb_commandes_ln_encours
     get "/nb_commandes_ln_faites", APIController, :nb_commandes_ln_faites
     get "/nb_commandes_ln_livrees", APIController, :nb_commandes_ln_livrees
+    get "/nb_commandes_ln_jour", APIController, :nb_commandes_ln_jour
+    get "/nb_commandes_ln_semaine", APIController, :nb_commandes_ln_semaine
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
