@@ -3,24 +3,16 @@ defmodule LiveDashboardWeb.APIController do
 
   def nb_commandes_ln(conn, _params) do
     # Replace this with your logic to retrieve the value
-    query = "with livrees as (select
-              count(*) as count
-            from ve_livraisons_ln with(nolock)
-            --inner join ve_livraisons with(nolock) on ve_livraisons.id = ve_livraisons_ln.ve_livraisons_id
-            where  ve_livraisons_ln.created_date >= DATEADD(HOUR, 5, CAST(CAST(GETDATE() AS DATE) AS DATETIME))
-              and (
-					ve_livraisons_ln.created_by = 'EXPEDITION1'
-					or ve_livraisons_ln.created_by = 'EXPEDITION2'
-					or ve_livraisons_ln.created_by = 'EXPEDITION3'
-          or ve_livraisons_ln.created_by = 'VERIFICATION1'
-          or ve_livraisons_ln.created_by = 'VERIFICATION2'
-          or ve_livraisons_ln.created_by = 'SIMON.HOUMMAS'
-          or ve_livraisons_ln.created_by = 'DONALD.GUITARD'
-          or ve_livraisons_ln.created_by = 'MIGUEL.LACOMBE'
-					)
+    query = "with livrees as (
+select
+    id as id
+from ve_livraisons_ln with(nolock)
+where  ve_livraisons_ln.created_date >= DATEADD(HOUR, 5, CAST(CAST(GETDATE() AS DATE) AS DATETIME))
+    and ve_livraisons_ln.created_by in ('EXPEDITION1','EXPEDITION2','EXPEDITION3','VERIFICATION1','VERIFICATION2','SIMON.HOUMMAS','DONALD.GUITARD','MIGUEL.LACOMBE')
+
 		)
 , somme as (SELECT
-          coalesce((select count from livrees),0) as livrees,
+          coalesce((select count(id) from livrees),0) as livrees,
           coalesce(sum(iif(coalesce(statut,0) = 4,1,0)),0) as completees,
           coalesce(sum(iif(coalesce(statut,0) = 3,1,0)),0) as encours,
           coalesce(sum(iif(coalesce(statut,0) = 2,1,0)),0) as imprimees,
