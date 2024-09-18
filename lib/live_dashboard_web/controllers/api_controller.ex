@@ -7,7 +7,8 @@ defmodule LiveDashboardWeb.APIController do
 select
     id as id
 from ve_livraisons_ln with(nolock)
-where  ve_livraisons_ln.created_date >= DATEADD(HOUR, 5, CAST(CAST(GETDATE() AS DATE) AS DATETIME))
+where  DATEADD(hour, -5, ve_livraisons_ln.created_date)
+					BETWEEN CAST(GETDATE() AS DATE) AND DATEADD(day, 1, CAST(GETDATE() AS DATE))
     and ve_livraisons_ln.created_by in ('EXPEDITION1','EXPEDITION2','EXPEDITION3','VERIFICATION1','VERIFICATION2','SIMON.HOUMMAS','DONALD.GUITARD','MIGUEL.LACOMBE')
 
 		)
@@ -122,7 +123,8 @@ from somme"
               count(*) as count
             from ve_livraisons_ln with(nolock)
             --inner join ve_livraisons with(nolock) on ve_livraisons.id = ve_livraisons_ln.ve_livraisons_id
-            where  ve_livraisons_ln.created_date >= DATEADD(HOUR, 5, CAST(CAST(GETDATE() AS DATE) AS DATETIME))
+            where  DATEADD(hour, -5, ve_livraisons_ln.created_date)
+					BETWEEN CAST(GETDATE() AS DATE) AND DATEADD(day, 1, CAST(GETDATE() AS DATE))
               and (
 					ve_livraisons_ln.created_by = 'EXPEDITION1'
 					or ve_livraisons_ln.created_by = 'EXPEDITION2'

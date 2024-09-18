@@ -283,6 +283,14 @@
           tension: 0.4
         },
         {
+          label: "Restantes",
+          data: Array(labels.length).fill(0),
+          borderColor: 'black',
+          fill: false,
+          cubicInterpolationMode: 'monotone',
+          tension: 0.4
+        },
+        {
           label: "Livrées",
           data: Array(labels.length).fill(0),
           borderColor: vert,
@@ -383,10 +391,11 @@
 
             if (roundedHourIndex !== -1) {
             trends.data.datasets[1].data[roundedHourIndex] = data[0].total;
-            trends.data.datasets[2].data[roundedHourIndex] = data[0].livrees;
-            trends.data.datasets[3].data[roundedHourIndex] = data[0].completees;
-            trends.data.datasets[4].data[roundedHourIndex] = data[0].imprimees;
-            trends.data.datasets[5].data[roundedHourIndex] = data[0].afaire;
+            trends.data.datasets[2].data[roundedHourIndex] = data[0].total-data[0].livrees;
+            trends.data.datasets[3].data[roundedHourIndex] = data[0].livrees;
+            trends.data.datasets[4].data[roundedHourIndex] = data[0].completees;
+            trends.data.datasets[5].data[roundedHourIndex] = data[0].imprimees;
+            trends.data.datasets[6].data[roundedHourIndex] = data[0].afaire;
             trends.update()
             } 
         }
@@ -475,6 +484,7 @@
       .then(data => {
         // Update the DOM with the fetched data
         const total = Array(labels.length).fill(null);
+        const restantes = Array(labels.length).fill(null);
         const livrees = Array(labels.length).fill(null);
         const completees = Array(labels.length).fill(null);
         const imprimees = Array(labels.length).fill(null);
@@ -484,6 +494,7 @@
           const labelIndex = labels.indexOf(item.heure); // Find the index of the hour in the labels
           if (labelIndex !== -1) {
             total[labelIndex] = item.total; // Update the corresponding index with the new total
+            restantes[labelIndex] = item.total -  item.livrees;
             livrees[labelIndex] = item.livrees;
             completees[labelIndex] = item.completees;
             imprimees[labelIndex] = item.imprimees;
@@ -491,10 +502,11 @@
           }
         });
         trends.data.datasets[1].data = total;
-        trends.data.datasets[2].data = livrees;
-        trends.data.datasets[3].data = completees;
-        trends.data.datasets[4].data = imprimees;
-        trends.data.datasets[5].data = afaire;
+        trends.data.datasets[2].data = restantes;
+        trends.data.datasets[3].data = livrees;
+        trends.data.datasets[4].data = completees;
+        trends.data.datasets[5].data = imprimees;
+        trends.data.datasets[6].data = afaire;
         trends.update()
       })
 
