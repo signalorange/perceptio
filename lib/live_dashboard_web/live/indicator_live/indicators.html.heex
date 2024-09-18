@@ -1,6 +1,36 @@
 <div class="container mx-auto">
   <div class="grid grid-cols-3 gap-4 mb-4">
     <!-- Chart 1 -->
+    <div class="bg-white shadow-md rounded-lg p-3 col-span-1">
+      <h2 class="text-xl font-semibold mb-4">Lignes de commandes <b><span style="color:rgba(149, 97, 226, 1)">aujourd'hui</span></b></h2>
+      <div class="chart-container text-justify mx-auto ml-8">
+        <span class="
+                                    inline-block 
+                                    text-black-500  
+                                    py-1  
+                                    rounded-full 
+                                    text-5xl
+                                    leading-tight
+                                    text-left">
+          <span>Total: <span id="comm_today" >0</span></span>
+          <br/>
+          <span class="border-b-4 pb-2">Livrées: (<span id="comm_livrees" style="color:rgba(76, 175, 80, 1)">0</span>)</span>
+          
+          <span>Restantes: <span id="comm_restant" style="color:rgba(149, 97, 226, 1)">0</span></span>
+        </span>
+
+      </div>
+    </div>
+    <div class="bg-white shadow-md rounded-lg p-3 col-span-2 pl-4">
+    <h2 class="text-xl font-semibold mb-4">Tendance horaire <b><span style="color:#607d8b">7 jours</span></b> vs <b><span style="color:rgba(149, 97, 226, 1)">aujourd'hui</span></b></h2>
+      <div class="chart-container">
+        <canvas id="trend-chart" width="1000" height="250"></canvas>
+        <!--<progress value="45" max="100" class="w-full">15%</progress>-->
+      </div>    
+    </div>
+  </div>
+  <div class="grid grid-cols-3 gap-4 mb-4">
+    <!-- Chart 1 -->
     <div class="bg-white shadow-md rounded-lg p-3 col-span-1 pl-4">
     <h2 class="text-xl font-semibold mb-4">État des <b>lignes</b> de commandes</h2>
       <div class="chart-container">
@@ -23,36 +53,7 @@
       </div>
     </div>
   </div>
-  <div class="grid grid-cols-3 gap-4">
-    <!-- Chart 1 -->
-    <div class="bg-white shadow-md rounded-lg p-3 col-span-1">
-      <h2 class="text-xl font-semibold mb-4">Lignes de commandes <b><span style="color:rgba(149, 97, 226, 1)">aujourd'hui</span></b></h2>
-      <div class="chart-container text-justify mx-auto ml-8">
-        <span class="
-                                    inline-block 
-                                    text-black-500  
-                                    py-1  
-                                    rounded-full 
-                                    text-5xl
-                                    leading-tight
-                                    text-left">
-          <span>Total: <span id="comm_today" style="color:rgba(149, 97, 226, 1)">0</span></span>
-          <br/>
-          <span class="border-b-4 pb-2">Livrées: (<span id="comm_livrees" style="color:rgba(76, 175, 80, 1)">0</span>)</span>
-          
-          <span>Restantes: <span id="comm_restant">0</span></span>
-        </span>
-
-      </div>
-    </div>
-    <div class="bg-white shadow-md rounded-lg p-3 col-span-2 pl-4">
-    <h2 class="text-xl font-semibold mb-4">Tendance horaire <b><span style="color:#607d8b">7 jours</span></b> vs <b><span style="color:rgba(149, 97, 226, 1)">aujourd'hui</span></b></h2>
-      <div class="chart-container">
-        <canvas id="trend-chart" width="1000" height="250"></canvas>
-        <!--<progress value="45" max="100" class="w-full">15%</progress>-->
-      </div>    
-    </div>
-  </div>
+  
 </div>
 
 <script>
@@ -61,16 +62,18 @@
     const orange = 'rgba(255, 143, 0, 1)'
     const bleu = 'rgba(24, 134, 224, 1)'
     const vert = 'rgba(76, 175, 80, 1)'
+    const mauve = 'rgba(149, 97, 226, 1)'
     const ctx = document.getElementById('pie-chart').getContext('2d');
     const chart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: [ 'Livrées', 'Pickées',  'Imprimées','À faire'],
+        labels: [ 'Livrées', 'Restantes', 'Pickées', 'Imprimées', 'À faire'],
         datasets: [{
           label: 'Lignes',
-          data: [ 0, 0, 0, 0],
+          data: [ 0, 0, 0, 0, 0],
           backgroundColor: [
             vert,
+            mauve,
             bleu, 
             //'rgba(255, 205, 86, 0.75)', 
             orange, 
@@ -266,7 +269,7 @@
       labels: labels,
       datasets: [
          {
-          label: 'Moyenne 7 jours',
+          label: 'Moyenne 7 jours (lignes restantes)',
           data: Array(labels.length).fill(0),
           borderColor: 'rgba(96, 125, 139, 0.5)',
           borderDash: [5, 5],
@@ -274,18 +277,18 @@
           cubicInterpolationMode: 'monotone',
           tension: 0.4
         },
-        {
-          label: "Total",
-          data: Array(labels.length).fill(0),
-          borderColor: 'rgba(149, 97, 226, 1)',
-          fill: false,
-          cubicInterpolationMode: 'monotone',
-          tension: 0.4
-        },
+        //{
+        //  label: "Total",
+        //  data: Array(labels.length).fill(0),
+        //  borderColor: 'rgba(149, 97, 226, 1)',
+        //  fill: false,
+        //  cubicInterpolationMode: 'monotone',
+        //  tension: 0.4
+        //},
         {
           label: "Restantes",
           data: Array(labels.length).fill(0),
-          borderColor: 'black',
+          borderColor: mauve,
           fill: false,
           cubicInterpolationMode: 'monotone',
           tension: 0.4
@@ -366,9 +369,10 @@
         // Update the DOM with the fetched data
         if(typeof data[0] !== 'undefined'){
             chart.data.datasets[0].data[0] = data[0].livrees;
-            chart.data.datasets[0].data[1] = data[0].completees;
-            chart.data.datasets[0].data[2] = data[0].imprimees;
-            chart.data.datasets[0].data[3] = data[0].afaire;
+            chart.data.datasets[0].data[1] = (data[0].total-data[0].livrees);
+            chart.data.datasets[0].data[2] = data[0].completees;
+            chart.data.datasets[0].data[3] = data[0].imprimees;
+            chart.data.datasets[0].data[4] = data[0].afaire;
             chart.update()
             document.getElementById('comm_today').innerHTML = data[0].total;
             document.getElementById('comm_livrees').innerHTML = data[0].livrees;
@@ -390,12 +394,12 @@
             const roundedHourIndex = labels.indexOf(roundedHour);
 
             if (roundedHourIndex !== -1) {
-            trends.data.datasets[1].data[roundedHourIndex] = data[0].total;
-            trends.data.datasets[2].data[roundedHourIndex] = data[0].total-data[0].livrees;
-            trends.data.datasets[3].data[roundedHourIndex] = data[0].livrees;
-            trends.data.datasets[4].data[roundedHourIndex] = data[0].completees;
-            trends.data.datasets[5].data[roundedHourIndex] = data[0].imprimees;
-            trends.data.datasets[6].data[roundedHourIndex] = data[0].afaire;
+            //trends.data.datasets[1].data[roundedHourIndex] = data[0].total;
+            trends.data.datasets[1].data[roundedHourIndex] = data[0].total-data[0].livrees;
+            trends.data.datasets[2].data[roundedHourIndex] = data[0].livrees;
+            trends.data.datasets[3].data[roundedHourIndex] = data[0].completees;
+            trends.data.datasets[4].data[roundedHourIndex] = data[0].imprimees;
+            trends.data.datasets[5].data[roundedHourIndex] = data[0].afaire;
             trends.update()
             } 
         }
@@ -488,7 +492,7 @@
         data.forEach(item => {
           const labelIndex = labels.indexOf(item.heure); // Find the index of the hour in the labels
           if ((labelIndex !== -1) && (labelIndex <= roundedHourIndex)) {
-            updatedData[labelIndex] = item.total; // Update the corresponding index with the new total
+            updatedData[labelIndex] = (item.total - item.livrees); // Update the corresponding index with the new total
           }
         });
         trends.data.datasets[0].data = updatedData;
@@ -518,12 +522,12 @@
             afaire[labelIndex] = item.afaire;
           }
         });
-        trends.data.datasets[1].data = total;
-        trends.data.datasets[2].data = restantes;
-        trends.data.datasets[3].data = livrees;
-        trends.data.datasets[4].data = completees;
-        trends.data.datasets[5].data = imprimees;
-        trends.data.datasets[6].data = afaire;
+        //trends.data.datasets[1].data = total;
+        trends.data.datasets[1].data = restantes;
+        trends.data.datasets[2].data = livrees;
+        trends.data.datasets[3].data = completees;
+        trends.data.datasets[4].data = imprimees;
+        trends.data.datasets[5].data = afaire;
         trends.update()
       })
 
