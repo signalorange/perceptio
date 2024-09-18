@@ -10,14 +10,14 @@
     </div>
     <!-- Chart 2 -->
     <div class="bg-white shadow-md rounded-lg p-3 col-span-1">
-      <h2 class="text-xl font-semibold mb-4">Lignes de commandes par <b>Types</b></h2>
+      <h2 class="text-xl font-semibold mb-4">Lignes de commandes par <b>Catégorie de produit</b></h2>
       <div class="chart-container">
         <canvas id="cable-chart" width="500" height="400"></canvas>
       </div>
     </div>
     <!-- Chart 5 -->
     <div class="bg-white shadow-md rounded-lg p-3 col-span-1 pr-4">
-      <h2 class="text-xl font-semibold mb-4">Lignes de commandes par <b>Routes</b></h2>
+      <h2 class="text-xl font-semibold mb-4">Lignes de commandes par <b>Catégorie de route</b></h2>
       <div class="chart-container">
         <canvas id="route-chart" width="500" height="400"></canvas>
       </div>
@@ -127,7 +127,7 @@
   const types = new Chart(cableCtx, {
     type: 'bar',
     data: {
-      labels: ['Stock','Câbles', 'EXT'],
+      labels: ['Produits en tablette', 'Produits câbles', 'Produits extérieurs'],
       datasets: [
         {
           label: 'Pickées',
