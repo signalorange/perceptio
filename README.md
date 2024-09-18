@@ -11,6 +11,8 @@ Or using docker :
 
 Now you can visit [`localhost`](http://localhost) from your browser.
 
+![alt text](preview.png)
+
 Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
 
 ## Learn more
