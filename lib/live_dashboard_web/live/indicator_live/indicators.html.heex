@@ -467,16 +467,33 @@
       .then(response => response.json())  // Parse JSON response
       .then(data => {
         const updatedData = Array(labels.length).fill(null);
+        const now = new Date();
+        let hour = now.getHours();
+        const minutes = now.getMinutes();
 
+        // Round to nearest hour
+        if (minutes >= 30) {
+        hour = (hour + 1) % 24; // Increment hour and handle 24-hour overflow
+        }
+
+        // Format the hour as a two-digit string
+        const roundedHour = hour.toString().padStart(2, '0');
+
+        // Now you can match it with the labels
+        const roundedHourIndex = labels.indexOf(roundedHour);
+
+        if (roundedHourIndex !== -1) {
+        //trends.data.datasets[1].data[roundedHourIndex] = data[0].total;
         // Map the API data to the correct label index
         data.forEach(item => {
           const labelIndex = labels.indexOf(item.heure); // Find the index of the hour in the labels
-          if (labelIndex !== -1) {
+          if ((labelIndex !== -1) && (labelIndex <= roundedHourIndex)) {
             updatedData[labelIndex] = item.total; // Update the corresponding index with the new total
           }
         });
         trends.data.datasets[0].data = updatedData;
         trends.update()
+        } 
       })
     // chart par routes
     fetch('/api/nb_commandes_ln_jour')
