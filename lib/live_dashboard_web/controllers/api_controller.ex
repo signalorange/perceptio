@@ -147,7 +147,8 @@ from somme"
               coalesce(livrees,0)+coalesce(completees,0)+coalesce(encours,0)+coalesce(imprimees,0)+coalesce(afaire,0) as total ,
               format(dateAjout, 'HH') as heure
               from ELEC_1h_COMMANDES_LN with(nolock)
-            where format(dateAjout, 'yyyy-MM-dd') = format(GETDATE(), 'yyyy-MM-dd')
+            where  DATEADD(hour, -5, dateAjout)
+					BETWEEN CAST(GETDATE() AS DATE) AND DATEADD(day, 1, CAST(GETDATE() AS DATE))
             order by dateAjout asc"
     value = fetch_query_total(query)
     json_data = convert_tds_result_to_json(value)
@@ -157,16 +158,17 @@ from somme"
   def nb_commandes_ln_semaine(conn, _params) do
     # Replace this with your logic to retrieve the value
     query = "select
-              coalesce(avg(livrees),0) as livrees,
-              coalesce(avg(completees),0) as completees,
-              coalesce(avg(encours),0) as encours,
-              coalesce(avg(imprimees),0) as imprimees,
-              coalesce(avg(afaire),0) as afaire,
-              coalesce(avg(livrees),0)+coalesce(avg(completees),0)+coalesce(avg(encours),0)+coalesce(avg(imprimees),0)+coalesce(avg(afaire),0) as total,
-              format(dateAjout, 'HH') as heure
-            from ELEC_1h_COMMANDES_LN
-            where format(dateAjout, 'yyyy-MM-dd') != format(GETDATE(), 'yyyy-MM-dd')
-            group by format(dateAjout, 'HH')"
+    coalesce(avg(livrees),0) as livrees,
+    coalesce(avg(completees),0) as completees,
+    coalesce(avg(encours),0) as encours,
+    coalesce(avg(imprimees),0) as imprimees,
+    coalesce(avg(afaire),0) as afaire,
+    coalesce(avg(livrees),0)+coalesce(avg(completees),0)+coalesce(avg(encours),0)+coalesce(avg(imprimees),0)+coalesce(avg(afaire),0) as total,
+    format(dateAjout, 'HH') as heure
+from ELEC_1h_COMMANDES_LN
+where DATEADD(hour, -5, dateAjout)
+		NOT BETWEEN CAST(GETDATE() AS DATE) AND DATEADD(day, 1, CAST(GETDATE() AS DATE))
+group by format(dateAjout, 'HH')"
     value = fetch_query_total(query)
     json_data = convert_tds_result_to_json(value)
     json(conn, json_data)

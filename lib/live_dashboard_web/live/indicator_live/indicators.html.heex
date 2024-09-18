@@ -26,22 +26,27 @@
   <div class="grid grid-cols-3 gap-4">
     <!-- Chart 1 -->
     <div class="bg-white shadow-md rounded-lg p-3 col-span-1">
-      <h2 class="text-xl font-semibold mb-4">Lignes de commandes <b>aujourd'hui</b></h2>
-      <div class="chart-container text-justify mx-auto ml-16">
-        <span id="comm_today" class="
+      <h2 class="text-xl font-semibold mb-4">Lignes de commandes <b><span style="color:rgba(149, 97, 226, 1)">aujourd'hui</span></b></h2>
+      <div class="chart-container text-justify mx-auto ml-8">
+        <span class="
                                     inline-block 
                                     text-black-500  
-                                    font-bold 
-                                    py-3  
+                                    py-1  
                                     rounded-full 
-                                    text-9xl">
-          0
+                                    text-5xl
+                                    leading-tight
+                                    text-left">
+          <span>Total: <span id="comm_today" style="color:rgba(149, 97, 226, 1)">0</span></span>
+          <br/>
+          <span class="border-b-4 pb-2">Livrées: (<span id="comm_livrees" style="color:rgba(76, 175, 80, 1)">0</span>)</span>
+          
+          <span>Restantes: <span id="comm_restant">0</span></span>
         </span>
 
       </div>
     </div>
     <div class="bg-white shadow-md rounded-lg p-3 col-span-2 pl-4">
-    <h2 class="text-xl font-semibold mb-4">Tendance horaire <b><span style="color:#607d8b">7 jours</span></b> vs <b><span style="color:#8bc34a">aujourd'hui</span></b></h2>
+    <h2 class="text-xl font-semibold mb-4">Tendance horaire <b><span style="color:#607d8b">7 jours</span></b> vs <b><span style="color:rgba(149, 97, 226, 1)">aujourd'hui</span></b></h2>
       <div class="chart-container">
         <canvas id="trend-chart" width="1000" height="250"></canvas>
         <!--<progress value="45" max="100" class="w-full">15%</progress>-->
@@ -112,6 +117,7 @@
         plugins: {
           legend: {
             display: false,
+            position: 'bottom'
           }
         }
       }
@@ -182,7 +188,8 @@
       },
       plugins: {
         legend: {
-            display: false,
+            display: true,
+            position: 'bottom'
           }
       }
     }
@@ -244,21 +251,22 @@
       },
       plugins: {
         legend: {
-            display: false,
+            display: true,
+            position: 'bottom'
           }
       }
     }
   });
     // Line chart for trend
   const trendCtx = document.getElementById('trend-chart').getContext('2d');
-  const labels = ['5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '1', '2', '3', '4']
+  const labels = ['05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '00', '01', '02', '03', '04']
   const trends = new Chart(trendCtx, {
     type: 'line',
     data: {
       labels: labels,
       datasets: [
          {
-          label: 'Moyenne',
+          label: 'Moyenne 7 jours',
           data: Array(labels.length).fill(0),
           borderColor: 'rgba(96, 125, 139, 0.5)',
           borderDash: [5, 5],
@@ -267,9 +275,41 @@
           tension: 0.4
         },
         {
-          label: "Aujourd'hui",
+          label: "Total",
           data: Array(labels.length).fill(0),
-          borderColor: 'rgba(139, 195, 74, 1)',
+          borderColor: 'rgba(149, 97, 226, 1)',
+          fill: false,
+          cubicInterpolationMode: 'monotone',
+          tension: 0.4
+        },
+        {
+          label: "Livrées",
+          data: Array(labels.length).fill(0),
+          borderColor: vert,
+          fill: false,
+          cubicInterpolationMode: 'monotone',
+          tension: 0.4
+        },
+        {
+          label: "Pickées",
+          data: Array(labels.length).fill(0),
+          borderColor: bleu,
+          fill: false,
+          cubicInterpolationMode: 'monotone',
+          tension: 0.4
+        },
+        {
+          label: "Imprimées",
+          data: Array(labels.length).fill(0),
+          borderColor: orange,
+          fill: false,
+          cubicInterpolationMode: 'monotone',
+          tension: 0.4
+        },
+        {
+          label: "À faire",
+          data: Array(labels.length).fill(0),
+          borderColor: rouge,
           fill: false,
           cubicInterpolationMode: 'monotone',
           tension: 0.4
@@ -303,7 +343,8 @@
       },
       plugins: {
         legend: {
-            display: false,
+            display: true,
+            position: 'bottom'
           }
       }
     }
@@ -320,9 +361,35 @@
             chart.data.datasets[0].data[1] = data[0].completees;
             chart.data.datasets[0].data[2] = data[0].imprimees;
             chart.data.datasets[0].data[3] = data[0].afaire;
+            chart.update()
             document.getElementById('comm_today').innerHTML = data[0].total;
+            document.getElementById('comm_livrees').innerHTML = data[0].livrees;
+            document.getElementById('comm_restant').innerHTML = (data[0].total-data[0].livrees);
+
+            const now = new Date();
+            let hour = now.getHours();
+            const minutes = now.getMinutes();
+
+            // Round to nearest hour
+            if (minutes >= 30) {
+            hour = (hour + 1) % 24; // Increment hour and handle 24-hour overflow
+            }
+
+            // Format the hour as a two-digit string
+            const roundedHour = hour.toString().padStart(2, '0');
+
+            // Now you can match it with the labels
+            const roundedHourIndex = labels.indexOf(roundedHour);
+
+            if (roundedHourIndex !== -1) {
+            trends.data.datasets[1].data[roundedHourIndex] = data[0].total;
+            trends.data.datasets[2].data[roundedHourIndex] = data[0].livrees;
+            trends.data.datasets[3].data[roundedHourIndex] = data[0].completees;
+            trends.data.datasets[4].data[roundedHourIndex] = data[0].imprimees;
+            trends.data.datasets[5].data[roundedHourIndex] = data[0].afaire;
+            trends.update()
+            } 
         }
-        chart.update()
       })
     // chart par types
     fetch('/api/nb_commandes_ln_types')
@@ -407,16 +474,27 @@
       .then(response => response.json())  // Parse JSON response
       .then(data => {
         // Update the DOM with the fetched data
-        const updatedData = Array(labels.length).fill(null);
-
+        const total = Array(labels.length).fill(null);
+        const livrees = Array(labels.length).fill(null);
+        const completees = Array(labels.length).fill(null);
+        const imprimees = Array(labels.length).fill(null);
+        const afaire = Array(labels.length).fill(null);
         // Map the API data to the correct label index
         data.forEach(item => {
           const labelIndex = labels.indexOf(item.heure); // Find the index of the hour in the labels
           if (labelIndex !== -1) {
-            updatedData[labelIndex] = item.total; // Update the corresponding index with the new total
+            total[labelIndex] = item.total; // Update the corresponding index with the new total
+            livrees[labelIndex] = item.livrees;
+            completees[labelIndex] = item.completees;
+            imprimees[labelIndex] = item.imprimees;
+            afaire[labelIndex] = item.afaire;
           }
         });
-        trends.data.datasets[1].data = updatedData;
+        trends.data.datasets[1].data = total;
+        trends.data.datasets[2].data = livrees;
+        trends.data.datasets[3].data = completees;
+        trends.data.datasets[4].data = imprimees;
+        trends.data.datasets[5].data = afaire;
         trends.update()
       })
 
