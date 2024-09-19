@@ -5,13 +5,27 @@ defmodule LiveDashboardWeb.APIController do
     # Replace this with your logic to retrieve the value
     query = "with livrees as (
 select
-    id as id
+    id
 from ve_livraisons_ln with(nolock)
-where  DATEADD(hour, -5, ve_livraisons_ln.created_date)
-					BETWEEN CAST(GETDATE() AS DATE) AND DATEADD(day, 1, CAST(GETDATE() AS DATE))
-    and ve_livraisons_ln.created_by in ('EXPEDITION1','EXPEDITION2','EXPEDITION3','VERIFICATION1','VERIFICATION2','SIMON.HOUMMAS','DONALD.GUITARD','MIGUEL.LACOMBE')
-
-		)
+--inner join ve_livraisons with(nolock) on ve_livraisons.id = ve_livraisons_ln.ve_livraisons_id
+where ve_livraisons_ln.created_by in ('EXPEDITION1','EXPEDITION2','EXPEDITION3','VERIFICATION1','VERIFICATION2','SIMON.HOUMMAS','DONALD.GUITARD','MIGUEL.LACOMBE')
+	AND ve_livraisons_ln.created_date BETWEEN
+		-- Start time: 5 AM today or 5 AM yesterday, depending on the current time
+		DATEADD(HOUR, 5, CONVERT(DATETIME,
+			CASE
+				WHEN DATEPART(HOUR, GETDATE()) >= 5 THEN CONVERT(DATE, GETDATE())  -- today
+				ELSE CONVERT(DATE, DATEADD(DAY, -1, GETDATE()))  -- yesterday
+			END
+		))
+	AND
+		-- End time: 4:59 AM tomorrow or today, depending on the current time
+		DATEADD(MINUTE, -1, DATEADD(HOUR, 5, CONVERT(DATETIME,
+			CASE
+				WHEN DATEPART(HOUR, GETDATE()) >= 5 THEN CONVERT(DATE, DATEADD(DAY, 1, GETDATE()))  -- tomorrow
+				ELSE CONVERT(DATE, GETDATE())  -- today
+			END
+		)))
+)
 , somme as (SELECT
           coalesce((select count(id) from livrees),0) as livrees,
           coalesce(sum(iif(coalesce(statut,0) = 4,1,0)),0) as completees,
@@ -120,21 +134,26 @@ from somme"
   def nb_commandes_ln_livrees(conn, _params) do
     # Replace this with your logic to retrieve the value
     query = "select
-              count(*) as count
-            from ve_livraisons_ln with(nolock)
-            --inner join ve_livraisons with(nolock) on ve_livraisons.id = ve_livraisons_ln.ve_livraisons_id
-            where  DATEADD(hour, -5, ve_livraisons_ln.created_date)
-					BETWEEN CAST(GETDATE() AS DATE) AND DATEADD(day, 1, CAST(GETDATE() AS DATE))
-              and (
-					ve_livraisons_ln.created_by = 'EXPEDITION1'
-					or ve_livraisons_ln.created_by = 'EXPEDITION2'
-					or ve_livraisons_ln.created_by = 'EXPEDITION3'
-          or ve_livraisons_ln.created_by = 'VERIFICATION1'
-          or ve_livraisons_ln.created_by = 'VERIFICATION2'
-          or ve_livraisons_ln.created_by = 'SIMON.HOUMMAS'
-          or ve_livraisons_ln.created_by = 'DONALD.GUITARD'
-          or ve_livraisons_ln.created_by = 'MIGUEL.LACOMBE'
-					)"
+    count(id) as count
+from ve_livraisons_ln with(nolock)
+--inner join ve_livraisons with(nolock) on ve_livraisons.id = ve_livraisons_ln.ve_livraisons_id
+where ve_livraisons_ln.created_by in ('EXPEDITION1','EXPEDITION2','EXPEDITION3','VERIFICATION1','VERIFICATION2','SIMON.HOUMMAS','DONALD.GUITARD','MIGUEL.LACOMBE')
+	AND ve_livraisons_ln.created_date BETWEEN
+		-- Start time: 5 AM today or 5 AM yesterday, depending on the current time
+		DATEADD(HOUR, 5, CONVERT(DATETIME,
+			CASE
+				WHEN DATEPART(HOUR, GETDATE()) >= 5 THEN CONVERT(DATE, GETDATE())  -- today
+				ELSE CONVERT(DATE, DATEADD(DAY, -1, GETDATE()))  -- yesterday
+			END
+		))
+	AND
+		-- End time: 4:59 AM tomorrow or today, depending on the current time
+		DATEADD(MINUTE, -1, DATEADD(HOUR, 5, CONVERT(DATETIME,
+			CASE
+				WHEN DATEPART(HOUR, GETDATE()) >= 5 THEN CONVERT(DATE, DATEADD(DAY, 1, GETDATE()))  -- tomorrow
+				ELSE CONVERT(DATE, GETDATE())  -- today
+			END
+		)))		"
     value = fetch_query(query)
     json(conn, %{value: value})
   end
