@@ -307,39 +307,8 @@
           fill: false,
           cubicInterpolationMode: 'monotone',
           tension: 0.4
-        },
-        {
-          label: "Livrées",
-          data: Array(labels.length).fill(0),
-          borderColor: vert,
-          fill: false,
-          cubicInterpolationMode: 'monotone',
-          tension: 0.4
-        },
-        {
-          label: "Pickées",
-          data: Array(labels.length).fill(0),
-          borderColor: bleu,
-          fill: false,
-          cubicInterpolationMode: 'monotone',
-          tension: 0.4
-        },
-        {
-          label: "Imprimées",
-          data: Array(labels.length).fill(0),
-          borderColor: orange,
-          fill: false,
-          cubicInterpolationMode: 'monotone',
-          tension: 0.4
-        },
-        {
-          label: "À faire",
-          data: Array(labels.length).fill(0),
-          borderColor: rouge,
-          fill: false,
-          cubicInterpolationMode: 'monotone',
-          tension: 0.4
         }
+        
       ]
     },
     options: {
@@ -415,10 +384,10 @@
             if (roundedHourIndex !== -1) {
             //trends.data.datasets[1].data[roundedHourIndex] = data[0].total;
             trends.data.datasets[1].data[roundedHourIndex] = data[0].total-data[0].livrees;
-            trends.data.datasets[2].data[roundedHourIndex] = data[0].livrees;
-            trends.data.datasets[3].data[roundedHourIndex] = data[0].completees;
-            trends.data.datasets[4].data[roundedHourIndex] = data[0].imprimees;
-            trends.data.datasets[5].data[roundedHourIndex] = data[0].afaire;
+            //trends.data.datasets[2].data[roundedHourIndex] = data[0].livrees;
+            //trends.data.datasets[3].data[roundedHourIndex] = data[0].completees;
+            //trends.data.datasets[4].data[roundedHourIndex] = data[0].imprimees;
+            //trends.data.datasets[5].data[roundedHourIndex] = data[0].afaire;
             trends.update()
             } 
         }
@@ -543,10 +512,10 @@
         });
         //trends.data.datasets[1].data = total;
         trends.data.datasets[1].data = restantes;
-        trends.data.datasets[2].data = livrees;
-        trends.data.datasets[3].data = completees;
-        trends.data.datasets[4].data = imprimees;
-        trends.data.datasets[5].data = afaire;
+        //trends.data.datasets[2].data = livrees;
+        //trends.data.datasets[3].data = completees;
+        //trends.data.datasets[4].data = imprimees;
+        //trends.data.datasets[5].data = afaire;
         trends.update()
       })
 
