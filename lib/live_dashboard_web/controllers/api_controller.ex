@@ -168,8 +168,22 @@ where ve_livraisons_ln.created_by in ('EXPEDITION1','EXPEDITION2','EXPEDITION3',
               coalesce(livrees,0)+coalesce(completees,0)+coalesce(encours,0)+coalesce(imprimees,0)+coalesce(afaire,0) as total ,
               format(dateAjout, 'HH') as heure
               from ELEC_1h_COMMANDES_LN with(nolock)
-            where  DATEADD(hour, -5, dateAjout)
-					BETWEEN CAST(GETDATE() AS DATE) AND DATEADD(day, 1, CAST(GETDATE() AS DATE))
+            where dateAjout BETWEEN
+    -- Start time: 5 AM today or 5 AM yesterday, depending on the current time
+    DATEADD(HOUR, 5, CONVERT(DATETIME,
+        CASE
+            WHEN DATEPART(HOUR, GETDATE()) >= 5 THEN CONVERT(DATE, GETDATE())  -- today
+            ELSE CONVERT(DATE, DATEADD(DAY, -1, GETDATE()))  -- yesterday
+        END
+    ))
+AND
+    -- End time: 4:59 AM tomorrow or today, depending on the current time
+    DATEADD(MINUTE, -1, DATEADD(HOUR, 5, CONVERT(DATETIME,
+        CASE
+            WHEN DATEPART(HOUR, GETDATE()) >= 5 THEN CONVERT(DATE, DATEADD(DAY, 1, GETDATE()))  -- tomorrow
+            ELSE CONVERT(DATE, GETDATE())  -- today
+        END
+    )))
             order by dateAjout asc"
     value = fetch_query_total(query)
     json_data = convert_tds_result_to_json(value)
@@ -187,8 +201,22 @@ where ve_livraisons_ln.created_by in ('EXPEDITION1','EXPEDITION2','EXPEDITION3',
     coalesce(avg(livrees),0)+coalesce(avg(completees),0)+coalesce(avg(encours),0)+coalesce(avg(imprimees),0)+coalesce(avg(afaire),0) as total,
     format(dateAjout, 'HH') as heure
 from ELEC_1h_COMMANDES_LN
-where DATEADD(hour, -5, dateAjout)
-		NOT BETWEEN CAST(GETDATE() AS DATE) AND DATEADD(day, 1, CAST(GETDATE() AS DATE))
+where dateAjout not BETWEEN
+    -- Start time: 5 AM today or 5 AM yesterday, depending on the current time
+    DATEADD(HOUR, 5, CONVERT(DATETIME,
+        CASE
+            WHEN DATEPART(HOUR, GETDATE()) >= 5 THEN CONVERT(DATE, GETDATE())  -- today
+            ELSE CONVERT(DATE, DATEADD(DAY, -1, GETDATE()))  -- yesterday
+        END
+    ))
+AND
+    -- End time: 4:59 AM tomorrow or today, depending on the current time
+    DATEADD(MINUTE, -1, DATEADD(HOUR, 5, CONVERT(DATETIME,
+        CASE
+            WHEN DATEPART(HOUR, GETDATE()) >= 5 THEN CONVERT(DATE, DATEADD(DAY, 1, GETDATE()))  -- tomorrow
+            ELSE CONVERT(DATE, GETDATE())  -- today
+        END
+    )))
 group by format(dateAjout, 'HH')"
     value = fetch_query_total(query)
     json_data = convert_tds_result_to_json(value)
