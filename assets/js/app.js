@@ -22,9 +22,27 @@ import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 
+// assets/js/app.js
+
+import OrderLinesTodayHook from "./hooks/order_lines_today"
+import HourlyTrendHook from "./hooks/hourly_trend"
+import OrderLinesStatusHook from "./hooks/order_lines_status"
+import OrderLinesTypesHook from "./hooks/order_lines_types";
+import OrderLinesRoutesHook from "./hooks/order_lines_routes"
+
+let Hooks = {
+    OrderLinesToday: OrderLinesTodayHook,
+    HourlyTrend: HourlyTrendHook,
+    OrderLinesStatus: OrderLinesStatusHook,
+    OrderLinesTypes: OrderLinesTypesHook,
+    OrderLinesRoutes: OrderLinesRoutesHook,
+  // ... other hooks
+}
+
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {
   longPollFallbackMs: 2500,
+  hooks: Hooks,
   params: {_csrf_token: csrfToken}
 })
 
