@@ -9,6 +9,10 @@
 [x] convertir en components
     - améliorer la gestion des components
     - au lieu d'appeler un API, est-ce qu'on peut appeler directement la même function?
+    
 - retirer les statistiques de la fin de semaine? au moins samedi 5am à lundi 4h59am
+
 - ne pas prendre ne compte les lignes livrées inutiles
     - qte = 0, type, isstock, autres?
+
+- corriger le chargement de (total, livrees, restantes) qui affiche parfois 0
