@@ -9,7 +9,10 @@ select
 from ve_livraisons_ln with(nolock)
 --inner join ve_livraisons with(nolock) on ve_livraisons.id = ve_livraisons_ln.ve_livraisons_id
 where ve_livraisons_ln.created_by in ('EXPEDITION1','EXPEDITION2','EXPEDITION3','VERIFICATION1','VERIFICATION2','SIMON.HOUMMAS','DONALD.GUITARD','MIGUEL.LACOMBE')
-	AND ve_livraisons_ln.created_date BETWEEN
+	AND ve_livraisons_ln.qte > 0
+  AND ve_livraisons_ln.isstock = 1
+  and ve_livraisons_ln.type = 0
+  AND ve_livraisons_ln.created_date BETWEEN
 		-- Start time: 5 AM today or 5 AM yesterday, depending on the current time
 		DATEADD(HOUR, 5, CONVERT(DATETIME,
 			CASE
@@ -138,7 +141,10 @@ from somme"
 from ve_livraisons_ln with(nolock)
 --inner join ve_livraisons with(nolock) on ve_livraisons.id = ve_livraisons_ln.ve_livraisons_id
 where ve_livraisons_ln.created_by in ('EXPEDITION1','EXPEDITION2','EXPEDITION3','VERIFICATION1','VERIFICATION2','SIMON.HOUMMAS','DONALD.GUITARD','MIGUEL.LACOMBE')
-	AND ve_livraisons_ln.created_date BETWEEN
+	AND ve_livraisons_ln.qte > 0
+  AND ve_livraisons_ln.isstock = 1
+  and ve_livraisons_ln.type = 0
+  AND ve_livraisons_ln.created_date BETWEEN
 		-- Start time: 5 AM today or 5 AM yesterday, depending on the current time
 		DATEADD(HOUR, 5, CONVERT(DATETIME,
 			CASE
@@ -192,14 +198,15 @@ AND
 
   def nb_commandes_ln_semaine(conn, _params) do
     # Replace this with your logic to retrieve the value
-    query = "select
-    coalesce(avg(livrees),0) as livrees,
-    coalesce(avg(completees),0) as completees,
-    coalesce(avg(encours),0) as encours,
-    coalesce(avg(imprimees),0) as imprimees,
-    coalesce(avg(afaire),0) as afaire,
-    coalesce(avg(livrees),0)+coalesce(avg(completees),0)+coalesce(avg(encours),0)+coalesce(avg(imprimees),0)+coalesce(avg(afaire),0) as total,
-    format(dateAjout, 'HH') as heure
+    query = "with donnees as (
+select
+    livrees as livrees,
+    completees as completees,
+    encours as encours,
+    imprimees as imprimees,
+    afaire as afaire,
+    livrees+completees+encours+imprimees+afaire as total,
+    dateAjout
 from ELEC_1h_COMMANDES_LN
 where dateAjout not BETWEEN
     -- Start time: 5 AM today or 5 AM yesterday, depending on the current time
@@ -217,6 +224,18 @@ AND
             ELSE CONVERT(DATE, GETDATE())  -- today
         END
     )))
+AND DATEPART(WEEKDAY, dateAjout) NOT IN (7,1) -- exclure samedi et dimanche
+)
+
+select
+    coalesce(avg(livrees),0) as livrees,
+    coalesce(avg(completees),0) as completees,
+    coalesce(avg(encours),0) as encours,
+    coalesce(avg(imprimees),0) as imprimees,
+    coalesce(avg(afaire),0) as afaire,
+    coalesce(avg(total),0) as total,
+    format(dateAjout, 'HH') as heure
+from donnees
 group by format(dateAjout, 'HH')"
     value = fetch_query_total(query)
     json_data = convert_tds_result_to_json(value)
