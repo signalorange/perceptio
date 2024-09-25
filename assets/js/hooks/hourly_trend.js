@@ -125,22 +125,22 @@ const HourlyTrendHook = {
         .then(response => response.json())  // Parse JSON response
         .then(data => {
           // Update the DOM with the fetched data
-          const total = Array(labels.length).fill(null);
+          //const total = Array(labels.length).fill(null);
           const restantes = Array(labels.length).fill(null);
-          const livrees = Array(labels.length).fill(null);
-          const completees = Array(labels.length).fill(null);
-          const imprimees = Array(labels.length).fill(null);
-          const afaire = Array(labels.length).fill(null);
+          //const livrees = Array(labels.length).fill(null);
+          //const completees = Array(labels.length).fill(null);
+          //const imprimees = Array(labels.length).fill(null);
+          //const afaire = Array(labels.length).fill(null);
           // Map the API data to the correct label index
           data.forEach(item => {
             const labelIndex = labels.indexOf(item.heure); // Find the index of the hour in the labels
             if (labelIndex !== -1) {
-              total[labelIndex] = item.total; // Update the corresponding index with the new total
+              //total[labelIndex] = item.total; // Update the corresponding index with the new total
               restantes[labelIndex] = item.total -  item.livrees;
-              livrees[labelIndex] = item.livrees;
-              completees[labelIndex] = item.completees;
-              imprimees[labelIndex] = item.imprimees;
-              afaire[labelIndex] = item.afaire;
+              //livrees[labelIndex] = item.livrees;
+              //completees[labelIndex] = item.completees;
+              //imprimees[labelIndex] = item.imprimees;
+              //afaire[labelIndex] = item.afaire;
             }
           });
           //trends.data.datasets[1].data = total;
