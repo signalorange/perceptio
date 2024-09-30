@@ -5,10 +5,11 @@ defmodule LiveDashboardWeb.APIController do
     # Replace this with your logic to retrieve the value
     query = "with livrees as (
 select
-    id
+    ve_livraisons_ln.id
 from ve_livraisons_ln with(nolock)
 --inner join ve_livraisons with(nolock) on ve_livraisons.id = ve_livraisons_ln.ve_livraisons_id
-where ve_livraisons_ln.created_by in ('EXPEDITION1','EXPEDITION2','EXPEDITION3','VERIFICATION1','VERIFICATION2','SIMON.HOUMMAS','DONALD.GUITARD','MIGUEL.LACOMBE')
+inner join xx_usagers with(nolock) on xx_usagers.id = ve_livraisons_ln.created_by
+where xx_usagers.xx_groupes_id in ('ENTREPOT', 'ENTREPOT_INVENTAIRE', 'SUPERVISEUR_ENTREPOT')
 	AND ve_livraisons_ln.qte > 0
   AND ve_livraisons_ln.isstock = 1
   and ve_livraisons_ln.type = 0
@@ -137,10 +138,11 @@ from somme"
   def nb_commandes_ln_livrees(conn, _params) do
     # Replace this with your logic to retrieve the value
     query = "select
-    count(id) as count
+    count(ve_livraisons_ln.id) as count
 from ve_livraisons_ln with(nolock)
 --inner join ve_livraisons with(nolock) on ve_livraisons.id = ve_livraisons_ln.ve_livraisons_id
-where ve_livraisons_ln.created_by in ('EXPEDITION1','EXPEDITION2','EXPEDITION3','VERIFICATION1','VERIFICATION2','SIMON.HOUMMAS','DONALD.GUITARD','MIGUEL.LACOMBE')
+inner join xx_usagers with(nolock) on xx_usagers.id = ve_livraisons_ln.created_by
+where xx_usagers.xx_groupes_id in ('ENTREPOT', 'ENTREPOT_INVENTAIRE', 'SUPERVISEUR_ENTREPOT')
 	AND ve_livraisons_ln.qte > 0
   AND ve_livraisons_ln.isstock = 1
   and ve_livraisons_ln.type = 0

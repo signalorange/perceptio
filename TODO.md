@@ -16,4 +16,4 @@
     - qte = 0, type, isstock, autres?
 
 - corriger le chargement de (total, livrees, restantes) qui affiche parfois 0
-- sélectionner les transactions selon les groupes d'usagers au lieu de les hardcoder
+[x] sélectionner les transactions selon les groupes d'usagers au lieu de les hardcoder
