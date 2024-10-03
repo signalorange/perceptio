@@ -10,6 +10,7 @@ defmodule LiveDashboardWeb.Components.OrderLinesToday do
           <span>Total: <span id="comm_today" phx-update="ignore">0</span></span>
           <br/>
           <span class="border-b-4 pb-2">Livrées: (<span id="comm_livrees" phx-update="ignore" style="color:rgba(76, 175, 80, 1)">0</span>)</span>
+          <br/>
           <span>Restantes: <span id="comm_restant" phx-update="ignore" style="color:rgba(149, 97, 226, 1)">0</span></span>
         </span>
       </div>

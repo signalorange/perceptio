@@ -42,8 +42,8 @@ const OrderLinesRoutesHook = {
                 stacked: true,
                 display: true,
                 title: {
-                    display: true,
-                    text: 'Catégorie de transport',
+                    display: false,
+                    text: 'Catégorie de routes',
                     font: {
                         weight: 'bold',
                     },
@@ -95,24 +95,48 @@ const OrderLinesRoutesHook = {
         let autres = data.findIndex(item => item.type === 'AUTRES');
         let routes300 = data.findIndex(item => item.type === 'ROUTES 300');
         let routes100 = data.findIndex(item => item.type === 'ROUTES 100');
+        let total_autres = 0;
+        let total_routes300 = 0;
+        let total_routes100 = 0;
         
         if(typeof data[autres] !== 'undefined' && autres !== -1){
             routes.data.datasets[0].data[0] = data[autres].completees;
             routes.data.datasets[1].data[0] = data[autres].imprimees;
             routes.data.datasets[2].data[0] = data[autres].afaire;
+            total_autres = data[autres].completees+data[autres].imprimees+data[autres].afaire;
+            routes.data.labels[0] = [total_autres,'Autres'];
         }
 
         if(typeof data[routes300] !== 'undefined' && routes300 !== -1){
             routes.data.datasets[0].data[1] = data[routes300].completees;
             routes.data.datasets[1].data[1] = data[routes300].imprimees;
             routes.data.datasets[2].data[1] = data[routes300].afaire;
+            total_routes300 = data[routes300].completees+data[routes300].imprimees+data[routes300].afaire;
+            routes.data.labels[1] = [total_routes300,'Routes 300'];
         }
         
         if(typeof data[routes100] !== 'undefined' && routes300 !== -1){
             routes.data.datasets[0].data[2] = data[routes100].completees;
             routes.data.datasets[1].data[2] = data[routes100].imprimees;
             routes.data.datasets[2].data[2] = data[routes100].afaire;
+            total_routes100 = data[routes100].completees+data[routes100].imprimees+data[routes100].afaire;
+            routes.data.labels[2] = [total_routes100,'Routes 100'];
         }
+        // vérifier le total des lignes, pour adapter le graphique
+        const maxTotal = Math.max(total_autres, total_routes300, total_routes100);
+
+        // Adjust the y-axis scale
+        let yAxisMax;
+        if (maxTotal <= 100) {
+            yAxisMax = 100;
+        } else if (maxTotal <= 200) {
+            yAxisMax = 200;
+        } else {
+            yAxisMax = 300;
+        }
+
+        // Update the chart options
+        routes.options.scales.y.max = yAxisMax;
 
         //routes.data.datasets[0].data[2] = data.value;
         routes.update()

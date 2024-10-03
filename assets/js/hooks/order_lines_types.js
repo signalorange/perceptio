@@ -51,7 +51,7 @@ const OrderLinesTypesHook = {
                 stacked: true,
                 display: true,
                 title: {
-                    display: true,
+                    display: false,
                     text: 'Catégorie de produit',
                     font: {
                         weight: 'bold',
@@ -102,24 +102,50 @@ const OrderLinesTypesHook = {
         let stocks = data.findIndex(item => item.type === 0);
         let cables = data.findIndex(item => item.type === 1);
         let exts = data.findIndex(item => item.type === 2);
+        let total_stocks = 0;
+        let total_cables = 0;
+        let total_exts = 0;
         
         if(typeof data[stocks] !== 'undefined' && stocks !== -1){
             types.data.datasets[0].data[0] = data[stocks].completees;
             types.data.datasets[1].data[0] = data[stocks].imprimees;
             types.data.datasets[2].data[0] = data[stocks].afaire;
+            total_stocks = data[stocks].completees+data[stocks].imprimees+data[stocks].afaire;
+            types.data.labels[0] = [total_stocks,'Produits en tablette'];
         }
         
         if(typeof data[cables] !== 'undefined' && cables !== -1){
             types.data.datasets[0].data[1] = data[cables].completees;
             types.data.datasets[1].data[1] = data[cables].imprimees;
             types.data.datasets[2].data[1] = data[cables].afaire;
+            total_cables = data[cables].completees+data[cables].imprimees+data[cables].afaire;
+            types.data.labels[1] = [total_cables,'Produits câbles'];
         }
 
         if(typeof data[exts] !== 'undefined' && exts !== -1){
             types.data.datasets[0].data[2] = data[exts].completees;
             types.data.datasets[1].data[2] = data[exts].imprimees;
             types.data.datasets[2].data[2] = data[exts].afaire;
+            total_exts = data[exts].completees+data[exts].imprimees+data[exts].afaire;
+            types.data.labels[2] = [total_exts,'Produits extérieurs'];
         }
+
+        // vérifier le total des lignes, pour adapter le graphique
+        const maxTotal = Math.max(total_stocks, total_cables, total_exts);
+
+        // Adjust the y-axis scale
+        let yAxisMax;
+        if (maxTotal <= 100) {
+            yAxisMax = 100;
+        } else if (maxTotal <= 200) {
+            yAxisMax = 200;
+        } else {
+            yAxisMax = 300;
+        }
+
+        // Update the chart options
+        types.options.scales.y.max = yAxisMax;
+
 
         //types.data.datasets[0].data[2] = data.value;
         types.update()

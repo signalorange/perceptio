@@ -11,7 +11,7 @@ const OrderLinesStatusHook = {
         const chart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: [ 'Livrées', 'Restantes', 'Pickées', 'Imprimées', 'À faire'],
+            labels: [ 'Livrées', 'Restantes', 'Pickées', 'Imprimées', 'À faires'],
             datasets: [{
             label: 'Lignes',
             data: [ 0, 0, 0, 0, 0],
@@ -58,11 +58,11 @@ const OrderLinesStatusHook = {
             x:{
                 display: true,
                 title: {
-                display: true,
-                text: 'Statut',
-                font: {
-                    weight: 'bold',
-                },
+                    display: true,
+                    text: 'Statut',
+                    font: {
+                        weight: 'bold',
+                    },
                 }
             }
             },
@@ -92,10 +92,37 @@ const OrderLinesStatusHook = {
       // Update the DOM with the fetched data
       if(typeof data[0] !== 'undefined'){
           chart.data.datasets[0].data[0] = data[0].livrees;
+          chart.data.labels[0] = [data[0].livrees,'Livrées'];
           chart.data.datasets[0].data[1] = (data[0].total-data[0].livrees);
+          chart.data.labels[1] = [(data[0].total-data[0].livrees),'Restantes'];
           chart.data.datasets[0].data[2] = data[0].completees;
+          chart.data.labels[2] = [data[0].completees,'Pickées'];
           chart.data.datasets[0].data[3] = data[0].imprimees;
+          chart.data.labels[3] = [data[0].imprimees,'Imprimées'];
           chart.data.datasets[0].data[4] = data[0].afaire;
+          chart.data.labels[4] = [data[0].afaire,'À faires'];
+
+          // vérifier le total des lignes, pour adapter le graphique
+            const maxTotal = Math.max(data[0].livrees, 
+                (data[0].total-data[0].livrees), 
+                data[0].completees,
+                data[0].imprimees,
+                data[0].afaire
+            );
+
+            // Adjust the y-axis scale
+            let yAxisMax;
+            if (maxTotal <= 100) {
+                yAxisMax = 100;
+            } else if (maxTotal <= 200) {
+                yAxisMax = 200;
+            } else {
+                yAxisMax = 300;
+            }
+
+            // Update the chart options
+            chart.options.scales.y.max = yAxisMax;
+
           chart.update()
       }
     })
