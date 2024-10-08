@@ -17,3 +17,4 @@
 
 - corriger le chargement de (total, livrees, restantes) qui affiche parfois 0
 [x] sélectionner les transactions selon les groupes d'usagers au lieu de les hardcoder
+- toruver une façon d'afficher aussi le nombre de commandes.
