@@ -18,3 +18,7 @@
 - corriger le chargement de (total, livrees, restantes) qui affiche parfois 0
 [x] sélectionner les transactions selon les groupes d'usagers au lieu de les hardcoder
 - toruver une façon d'afficher aussi le nombre de commandes.
+- simplifier l'API pour exporter à PowerBI
+- authentification
+- page d'accueil
+- dashboard de gestion/coûts/marges
