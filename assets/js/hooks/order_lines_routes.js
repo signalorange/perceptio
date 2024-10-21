@@ -96,14 +96,18 @@ const OrderLinesRoutesHook = {
         let routes300 = data.findIndex(item => item.type === 'ROUTES 300');
         let routes100 = data.findIndex(item => item.type === 'ROUTES 100');
         let total_autres = 0;
+        let max_autres = 0;
         let total_routes300 = 0;
+        let max_routes300 = 0;
         let total_routes100 = 0;
+        let max_routes100 = 0;
         
         if(typeof data[autres] !== 'undefined' && autres !== -1){
             routes.data.datasets[0].data[0] = data[autres].completees;
             routes.data.datasets[1].data[0] = data[autres].imprimees;
             routes.data.datasets[2].data[0] = data[autres].afaire;
             total_autres = data[autres].completees+data[autres].imprimees+data[autres].afaire;
+            max_autres = Math.max(data[autres].completees, data[autres].imprimees, data[autres].afaire)
             routes.data.labels[0] = [total_autres,'Autres'];
         }
 
@@ -112,6 +116,7 @@ const OrderLinesRoutesHook = {
             routes.data.datasets[1].data[1] = data[routes300].imprimees;
             routes.data.datasets[2].data[1] = data[routes300].afaire;
             total_routes300 = data[routes300].completees+data[routes300].imprimees+data[routes300].afaire;
+            max_routes300 = Math.max(data[routes300].completees, data[routes300].imprimees, data[routes300].afaire)
             routes.data.labels[1] = [total_routes300,'Routes 300'];
         }
         
@@ -120,10 +125,11 @@ const OrderLinesRoutesHook = {
             routes.data.datasets[1].data[2] = data[routes100].imprimees;
             routes.data.datasets[2].data[2] = data[routes100].afaire;
             total_routes100 = data[routes100].completees+data[routes100].imprimees+data[routes100].afaire;
+            max_routes100 = Math.max(data[routes100].completees, data[routes100].imprimees, data[routes100].afaire)
             routes.data.labels[2] = [total_routes100,'Routes 100'];
         }
         // vérifier le total des lignes, pour adapter le graphique
-        const maxTotal = Math.max(total_autres, total_routes300, total_routes100);
+        const maxTotal = Math.max(max_autres, max_routes300, max_routes100);
 
         // Adjust the y-axis scale
         let yAxisMax;
