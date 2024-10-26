@@ -18,6 +18,7 @@ defmodule LiveDashboardWeb.Router do
     pipe_through :browser
     get "/", RedirectController, :redirector
     live "/entrepot", IndicatorLive.Indicators
+    live "/cable_dashboard", IndicatorLive.CableDashboardLive
   end
 
   scope "/api", LiveDashboardWeb do
