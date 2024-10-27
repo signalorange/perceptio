@@ -22,3 +22,9 @@
 - authentification
 - page d'accueil
 - dashboard de gestion/coûts/marges
+- dashboard de coupes de câbles
+- réduire les ressources SQL
+    - remplacer les requests SQL par quelque unes au niveau serveur, qui remplissent une table ETS périodiquement (1m-5min)
+        - traitement de données à ce niveau
+        - définition d'une API
+    - les components vont être updaté en temps réel basé sur la table ETS pour tous les clients en même temps avec pub/sub
