@@ -5,20 +5,22 @@ const OrderLinesStatusHook = {
         const rouge = 'rgba(232, 0, 0, 1)'
         const orange = 'rgba(255, 143, 0, 1)'
         const bleu = 'rgba(24, 134, 224, 1)'
+        const jaune = 'rgba(239, 185, 58, 1)'
         const vert = 'rgba(76, 175, 80, 1)'
         const mauve = 'rgba(149, 97, 226, 1)'
         const ctx = document.getElementById('pie-chart').getContext('2d');
         const chart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: [ 'Livrées', 'Restantes', 'Pickées', 'Imprimées', 'À faires'],
+            labels: [ 'Livrées', 'Restantes', 'Pickées', 'Prêtes', 'Imprimées', 'À faires'],
             datasets: [{
             label: 'Lignes',
-            data: [ 0, 0, 0, 0, 0],
+            data: [ 0, 0, 0, 0, 0, 0],
             backgroundColor: [
                 vert,
                 mauve,
                 bleu, 
+                jaune,
                 //'rgba(255, 205, 86, 0.75)', 
                 orange, 
                 rouge],
@@ -97,10 +99,12 @@ const OrderLinesStatusHook = {
           chart.data.labels[1] = [(data[0].total-data[0].livrees),'Restantes'];
           chart.data.datasets[0].data[2] = data[0].completees;
           chart.data.labels[2] = [data[0].completees,'Pickées'];
-          chart.data.datasets[0].data[3] = data[0].imprimees;
-          chart.data.labels[3] = [data[0].imprimees,'Imprimées'];
-          chart.data.datasets[0].data[4] = data[0].afaire;
-          chart.data.labels[4] = [data[0].afaire,'À faires'];
+          chart.data.datasets[0].data[3] = data[0].pretes;
+          chart.data.labels[3] = [data[0].pretes,'Prêtes'];
+          chart.data.datasets[0].data[4] = data[0].imprimees;
+          chart.data.labels[4] = [data[0].imprimees,'Imprimées'];
+          chart.data.datasets[0].data[5] = data[0].afaire;
+          chart.data.labels[5] = [data[0].afaire,'À faires'];
 
           // vérifier le total des lignes, pour adapter le graphique
             const maxTotal = Math.max(data[0].livrees, 

@@ -5,6 +5,7 @@ const OrderLinesTypesHook = {
         const rouge = 'rgba(232, 0, 0, 1)'
         const orange = 'rgba(255, 143, 0, 1)'
         const bleu = 'rgba(24, 134, 224, 1)'
+        const jaune = 'rgba(239, 185, 58, 1)'
         const vert = 'rgba(76, 175, 80, 1)'
         const mauve = 'rgba(149, 97, 226, 1)'
         // Stacked chart for Lignes de câbles
@@ -25,6 +26,17 @@ const OrderLinesTypesHook = {
                     top: 1,
                 }
                 },
+                {
+                    label: 'Prêtes',
+                    data: [0, 0, 0],
+                    backgroundColor: jaune,
+                    //stack: 'Imprimées',
+                    borderWidth: 1,
+                    borderColor: 'white',
+                    borderWidth: {
+                        top: 1,
+                    }
+                    },
                 {
                 label: 'Imprimées',
                 data: [0, 0, 0],
@@ -108,25 +120,28 @@ const OrderLinesTypesHook = {
         
         if(typeof data[stocks] !== 'undefined' && stocks !== -1){
             types.data.datasets[0].data[0] = data[stocks].completees;
-            types.data.datasets[1].data[0] = data[stocks].imprimees;
-            types.data.datasets[2].data[0] = data[stocks].afaire;
-            total_stocks = data[stocks].completees+data[stocks].imprimees+data[stocks].afaire;
+            types.data.datasets[1].data[0] = data[stocks].pretes;
+            types.data.datasets[2].data[0] = data[stocks].imprimees;
+            types.data.datasets[3].data[0] = data[stocks].afaire;
+            total_stocks = data[stocks].completees+data[stocks].pretes+data[stocks].imprimees+data[stocks].afaire;
             types.data.labels[0] = [total_stocks,'Produits en tablette'];
         }
         
         if(typeof data[cables] !== 'undefined' && cables !== -1){
             types.data.datasets[0].data[1] = data[cables].completees;
-            types.data.datasets[1].data[1] = data[cables].imprimees;
-            types.data.datasets[2].data[1] = data[cables].afaire;
-            total_cables = data[cables].completees+data[cables].imprimees+data[cables].afaire;
+            types.data.datasets[1].data[1] = data[cables].pretes;
+            types.data.datasets[2].data[1] = data[cables].imprimees;
+            types.data.datasets[3].data[1] = data[cables].afaire;
+            total_cables = data[cables].completees+data[cables].pretes+data[cables].imprimees+data[cables].afaire;
             types.data.labels[1] = [total_cables,'Produits câbles'];
         }
 
         if(typeof data[exts] !== 'undefined' && exts !== -1){
             types.data.datasets[0].data[2] = data[exts].completees;
-            types.data.datasets[1].data[2] = data[exts].imprimees;
-            types.data.datasets[2].data[2] = data[exts].afaire;
-            total_exts = data[exts].completees+data[exts].imprimees+data[exts].afaire;
+            types.data.datasets[1].data[2] = data[exts].pretes;
+            types.data.datasets[2].data[2] = data[exts].imprimees;
+            types.data.datasets[3].data[2] = data[exts].afaire;
+            total_exts = data[exts].completees+data[exts].pretes+data[exts].imprimees+data[exts].afaire;
             types.data.labels[2] = [total_exts,'Produits extérieurs'];
         }
 

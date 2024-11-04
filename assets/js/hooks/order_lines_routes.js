@@ -5,6 +5,7 @@ const OrderLinesRoutesHook = {
         const rouge = 'rgba(232, 0, 0, 1)'
         const orange = 'rgba(255, 143, 0, 1)'
         const bleu = 'rgba(24, 134, 224, 1)'
+        const jaune = 'rgba(239, 185, 58, 1)'
         const vert = 'rgba(76, 175, 80, 1)'
         const mauve = 'rgba(149, 97, 226, 1)'
         
@@ -21,6 +22,12 @@ const OrderLinesRoutesHook = {
                 backgroundColor: bleu,
                 stack: 'Pickées',
                 },
+                {
+                    label: 'Prêtes',
+                    data: [0, 0, 0],
+                    backgroundColor: jaune,
+                    stack: 'Prêtes',
+                    },
                 {
                 label: 'Imprimées',
                 data: [0, 0, 0],
@@ -104,28 +111,31 @@ const OrderLinesRoutesHook = {
         
         if(typeof data[autres] !== 'undefined' && autres !== -1){
             routes.data.datasets[0].data[0] = data[autres].completees;
-            routes.data.datasets[1].data[0] = data[autres].imprimees;
-            routes.data.datasets[2].data[0] = data[autres].afaire;
-            total_autres = data[autres].completees+data[autres].imprimees+data[autres].afaire;
-            max_autres = Math.max(data[autres].completees, data[autres].imprimees, data[autres].afaire)
+            routes.data.datasets[1].data[0] = data[autres].pretes;
+            routes.data.datasets[2].data[0] = data[autres].imprimees;
+            routes.data.datasets[3].data[0] = data[autres].afaire;
+            total_autres = data[autres].completees+data[autres].pretes+data[autres].imprimees+data[autres].afaire;
+            max_autres = Math.max(data[autres].completees, data[autres].pretes, data[autres].imprimees, data[autres].afaire)
             routes.data.labels[0] = [total_autres,'Autres'];
         }
 
         if(typeof data[routes300] !== 'undefined' && routes300 !== -1){
             routes.data.datasets[0].data[1] = data[routes300].completees;
-            routes.data.datasets[1].data[1] = data[routes300].imprimees;
-            routes.data.datasets[2].data[1] = data[routes300].afaire;
-            total_routes300 = data[routes300].completees+data[routes300].imprimees+data[routes300].afaire;
-            max_routes300 = Math.max(data[routes300].completees, data[routes300].imprimees, data[routes300].afaire)
+            routes.data.datasets[1].data[1] = data[routes300].pretes;
+            routes.data.datasets[2].data[1] = data[routes300].imprimees;
+            routes.data.datasets[3].data[1] = data[routes300].afaire;
+            total_routes300 = data[routes300].completees+data[routes300].pretes+data[routes300].imprimees+data[routes300].afaire;
+            max_routes300 = Math.max(data[routes300].completees, data[routes300].pretes, data[routes300].imprimees, data[routes300].afaire)
             routes.data.labels[1] = [total_routes300,'Routes 300'];
         }
         
         if(typeof data[routes100] !== 'undefined' && routes300 !== -1){
             routes.data.datasets[0].data[2] = data[routes100].completees;
-            routes.data.datasets[1].data[2] = data[routes100].imprimees;
-            routes.data.datasets[2].data[2] = data[routes100].afaire;
-            total_routes100 = data[routes100].completees+data[routes100].imprimees+data[routes100].afaire;
-            max_routes100 = Math.max(data[routes100].completees, data[routes100].imprimees, data[routes100].afaire)
+            routes.data.datasets[1].data[2] = data[routes100].pretes;
+            routes.data.datasets[2].data[2] = data[routes100].imprimees;
+            routes.data.datasets[3].data[2] = data[routes100].afaire;
+            total_routes100 = data[routes100].completees+data[routes100].pretes+data[routes100].imprimees+data[routes100].afaire;
+            max_routes100 = Math.max(data[routes100].completees, data[routes100].pretes, data[routes100].imprimees, data[routes100].afaire)
             routes.data.labels[2] = [total_routes100,'Routes 100'];
         }
         // vérifier le total des lignes, pour adapter le graphique

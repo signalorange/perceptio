@@ -33,6 +33,7 @@ where xx_usagers.xx_groupes_id in ('ENTREPOT', 'ENTREPOT_INVENTAIRE', 'SUPERVISE
 , somme as (SELECT
           coalesce((select count(id) from livrees),0) as livrees,
           coalesce(sum(iif(coalesce(statut,0) = 4,1,0)),0) as completees,
+          coalesce(sum(iif(coalesce(statut,0) = 3.5,1,0)),0) as pretes,
           coalesce(sum(iif(coalesce(statut,0) = 3,1,0)),0) as encours,
           coalesce(sum(iif(coalesce(statut,0) = 2,1,0)),0) as imprimees,
           coalesce(sum(iif(coalesce(statut,0) = 1,1,0)),0) as afaire
@@ -52,6 +53,7 @@ from somme"
           type as type,
           0 as livrees,
           sum(iif(coalesce(statut,0) = 4,1,0)) as completees,
+          sum(iif(coalesce(statut,0) = 3.5,1,0)) as pretes,
           sum(iif(coalesce(statut,0) = 3,1,0)) as encours,
           sum(iif(coalesce(statut,0) = 2,1,0)) as imprimees,
           sum(iif(coalesce(statut,0) = 1,1,0)) as afaire
@@ -71,6 +73,7 @@ from somme"
         transport_category as type,
           0 as livrees,
           sum(iif(coalesce(statut,0) = 4,1,0)) as completees,
+          sum(iif(coalesce(statut,0) = 3.5,1,0)) as pretes,
           sum(iif(coalesce(statut,0) = 3,1,0)) as encours,
           sum(iif(coalesce(statut,0) = 2,1,0)) as imprimees,
           sum(iif(coalesce(statut,0) = 1,1,0)) as afaire
