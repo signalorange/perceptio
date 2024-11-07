@@ -2,12 +2,13 @@
 
 const OrderLinesStatusHook = {
     mounted() {
-        const rouge = 'rgba(232, 0, 0, 1)'
-        const orange = 'rgba(255, 143, 0, 1)'
-        const bleu = 'rgba(24, 134, 224, 1)'
-        const jaune = 'rgba(239, 185, 58, 1)'
-        const vert = 'rgba(76, 175, 80, 1)'
-        const mauve = 'rgba(149, 97, 226, 1)'
+        const livrees = 'rgba(34, 136, 51, 1)' // vert
+        const restantes = 'rgba(149, 97, 226, 1)' // mauve
+        const pickees = 'rgba(238, 102, 119, 1)' //rose
+        const pretes = 'rgba(204, 187, 68, 1)' // jaune
+        const imprimees = 'rgba(102, 204, 238, 1)' // bleu pale
+        const a_faire = 'rgba(68, 119, 170, 1)' // bleu
+
         const ctx = document.getElementById('pie-chart').getContext('2d');
         const chart = new Chart(ctx, {
         type: 'bar',
@@ -17,13 +18,12 @@ const OrderLinesStatusHook = {
             label: 'Lignes',
             data: [ 0, 0, 0, 0, 0, 0],
             backgroundColor: [
-                vert,
-                mauve,
-                bleu, 
-                jaune,
-                //'rgba(255, 205, 86, 0.75)', 
-                orange, 
-                rouge],
+                livrees,
+                restantes,
+                pickees, 
+                pretes,
+                imprimees, 
+                a_faire],
             borderColor: '#ffffff',
             borderWidth: 2
             }]

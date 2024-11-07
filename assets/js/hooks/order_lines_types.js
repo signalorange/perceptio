@@ -2,12 +2,13 @@
 
 const OrderLinesTypesHook = {
     mounted() {
-        const rouge = 'rgba(232, 0, 0, 1)'
-        const orange = 'rgba(255, 143, 0, 1)'
-        const bleu = 'rgba(24, 134, 224, 1)'
-        const jaune = 'rgba(239, 185, 58, 1)'
-        const vert = 'rgba(76, 175, 80, 1)'
-        const mauve = 'rgba(149, 97, 226, 1)'
+        const livrees = 'rgba(34, 136, 51, 1)' // vert
+        const restantes = 'rgba(149, 97, 226, 1)' // mauve
+        const pickees = 'rgba(238, 102, 119, 1)' //rose
+        const pretes = 'rgba(204, 187, 68, 1)' // jaune
+        const imprimees = 'rgba(102, 204, 238, 1)' // bleu pale
+        const a_faire = 'rgba(68, 119, 170, 1)' // bleu
+
         // Stacked chart for Lignes de câbles
         const typesCtx = document.getElementById('cable-chart').getContext('2d');
         const types = new Chart(typesCtx, {
@@ -18,7 +19,7 @@ const OrderLinesTypesHook = {
                 {
                 label: 'Pickées',
                 data: [0, 0, 0],
-                backgroundColor: bleu,
+                backgroundColor: pickees,
                 //stack: 'Pickées',
                 borderWidth: 1,
                 borderColor: 'white',
@@ -29,7 +30,7 @@ const OrderLinesTypesHook = {
                 {
                     label: 'Prêtes',
                     data: [0, 0, 0],
-                    backgroundColor: jaune,
+                    backgroundColor: pretes,
                     //stack: 'Imprimées',
                     borderWidth: 1,
                     borderColor: 'white',
@@ -40,7 +41,7 @@ const OrderLinesTypesHook = {
                 {
                 label: 'Imprimées',
                 data: [0, 0, 0],
-                backgroundColor: orange,
+                backgroundColor: imprimees,
                 //stack: 'Imprimées',
                 borderWidth: 1,
                 borderColor: 'white',
@@ -51,7 +52,7 @@ const OrderLinesTypesHook = {
                 {
                 label: 'À faire',
                 data: [0, 0, 0],
-                backgroundColor: rouge,
+                backgroundColor: a_faire,
                 //stack: 'À faire',
                 }
             ]
