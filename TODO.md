@@ -27,3 +27,4 @@
     - [ ] les components vont être updaté en temps réel basé sur la table ETS pour tous les clients en même temps avec pub/sub
 - [ ] Changer les couleurs pour une liste globale
     - [x] adapter pour être colorblind-friendly
+- [ ] faire un release en production pour docker
