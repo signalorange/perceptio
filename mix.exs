@@ -1,9 +1,9 @@
-defmodule LiveDashboard.MixProject do
+defmodule Perceptio.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :live_dashboard,
+      app: :perceptio,
       version: "0.1.0",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -18,7 +18,7 @@ defmodule LiveDashboard.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {LiveDashboard.Application, []},
+      mod: {Perceptio.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -55,7 +55,8 @@ defmodule LiveDashboard.MixProject do
       {:tds, "~> 2.1"},
       {:heroicons, "~> 0.5.5"},
        {:httpoison, "~> 1.8"},
-       {:petal_components, "~> 1.0"}
+       {:petal_components, "~> 1.0"},
+       {:cors_plug, "~> 3.0"}
     ]
   end
 
@@ -72,10 +73,10 @@ defmodule LiveDashboard.MixProject do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.build": ["tailwind live_dashboard", "esbuild live_dashboard"],
+      "assets.build": ["tailwind perceptio", "esbuild perceptio"],
       "assets.deploy": [
-        "tailwind live_dashboard --minify",
-        "esbuild live_dashboard --minify",
+        "tailwind perceptio --minify",
+        "esbuild perceptio --minify",
         "phx.digest",
       ]
     ]

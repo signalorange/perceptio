@@ -1,4 +1,4 @@
-defmodule LiveDashboardWeb.ConnCase do
+defmodule PerceptioWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -11,7 +11,7 @@ defmodule LiveDashboardWeb.ConnCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use LiveDashboardWeb.ConnCase, async: true`, although
+  by setting `use PerceptioWeb.ConnCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -20,19 +20,19 @@ defmodule LiveDashboardWeb.ConnCase do
   using do
     quote do
       # The default endpoint for testing
-      @endpoint LiveDashboardWeb.Endpoint
+      @endpoint PerceptioWeb.Endpoint
 
-      use LiveDashboardWeb, :verified_routes
+      use PerceptioWeb, :verified_routes
 
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
-      import LiveDashboardWeb.ConnCase
+      import PerceptioWeb.ConnCase
     end
   end
 
   setup tags do
-    LiveDashboard.DataCase.setup_sandbox(tags)
+    Perceptio.DataCase.setup_sandbox(tags)
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 end

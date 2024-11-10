@@ -2,6 +2,20 @@
 
 const OrderLinesTypesHook = {
     mounted() {
+        this.initChart()
+        const chartData = JSON.parse(this.el.dataset.chart)
+        this.convertData(chartData);
+      //this.timer = setInterval(() => this.fetchData(chart), 5 * 60 * 1000); // 5 minutes interval
+    },
+
+    updated() {
+        const newData = JSON.parse(this.el.dataset.chart)
+        console.log("update received, order_lines_status", newData);
+        this.convertData(newData)
+      },
+  
+
+    initChart() {
         const livrees = 'rgba(34, 136, 51, 1)' // vert
         const restantes = 'rgba(149, 97, 226, 1)' // mauve
         const pickees = 'rgba(238, 102, 119, 1)' //rose
@@ -11,7 +25,7 @@ const OrderLinesTypesHook = {
 
         // Stacked chart for Lignes de câbles
         const typesCtx = document.getElementById('cable-chart').getContext('2d');
-        const types = new Chart(typesCtx, {
+        this.chart = new Chart(typesCtx, {
             type: 'bar',
             data: {
             labels: ['Produits en tablette', 'Produits câbles', 'Produits extérieurs'],
@@ -21,7 +35,7 @@ const OrderLinesTypesHook = {
                 data: [0, 0, 0],
                 backgroundColor: pickees,
                 //stack: 'Pickées',
-                borderWidth: 1,
+                //borderWidth: 1,
                 borderColor: 'white',
                 borderWidth: {
                     top: 1,
@@ -32,7 +46,7 @@ const OrderLinesTypesHook = {
                     data: [0, 0, 0],
                     backgroundColor: pretes,
                     //stack: 'Imprimées',
-                    borderWidth: 1,
+                    //borderWidth: 1,
                     borderColor: 'white',
                     borderWidth: {
                         top: 1,
@@ -43,7 +57,7 @@ const OrderLinesTypesHook = {
                 data: [0, 0, 0],
                 backgroundColor: imprimees,
                 //stack: 'Imprimées',
-                borderWidth: 1,
+                //borderWidth: 1,
                 borderColor: 'white',
                 borderWidth: {
                     top: 1,
@@ -97,19 +111,12 @@ const OrderLinesTypesHook = {
             }
             }
         });
-      this.fetchData(types);
-      this.timer = setInterval(() => this.fetchData(types), 5 * 60 * 1000); // 5 minutes interval
+      //this.timer = setInterval(() => this.fetchData(types), 5 * 60 * 1000); // 5 minutes interval
     },
-  
-    destroyed() {
-      clearInterval(this.timer);
-    },
-  
-    fetchData(types) {
-      // chart par types
-    fetch('/api/nb_commandes_ln_types')
-        .then(response => response.json())  // Parse JSON response
-        .then(data => {
+
+    convertData(data) {
+        // chart par types
+
         // Update the DOM with the fetched data
 
         let stocks = data.findIndex(item => item.type === 0);
@@ -120,30 +127,30 @@ const OrderLinesTypesHook = {
         let total_exts = 0;
         
         if(typeof data[stocks] !== 'undefined' && stocks !== -1){
-            types.data.datasets[0].data[0] = data[stocks].completees;
-            types.data.datasets[1].data[0] = data[stocks].pretes;
-            types.data.datasets[2].data[0] = data[stocks].imprimees;
-            types.data.datasets[3].data[0] = data[stocks].afaire;
+            this.chart.data.datasets[0].data[0] = data[stocks].completees;
+            this.chart.data.datasets[1].data[0] = data[stocks].pretes;
+            this.chart.data.datasets[2].data[0] = data[stocks].imprimees;
+            this.chart.data.datasets[3].data[0] = data[stocks].afaire;
             total_stocks = data[stocks].completees+data[stocks].pretes+data[stocks].imprimees+data[stocks].afaire;
-            types.data.labels[0] = [total_stocks,'Produits en tablette'];
+            this.chart.data.labels[0] = [total_stocks,'Produits en tablette'];
         }
         
         if(typeof data[cables] !== 'undefined' && cables !== -1){
-            types.data.datasets[0].data[1] = data[cables].completees;
-            types.data.datasets[1].data[1] = data[cables].pretes;
-            types.data.datasets[2].data[1] = data[cables].imprimees;
-            types.data.datasets[3].data[1] = data[cables].afaire;
+            this.chart.data.datasets[0].data[1] = data[cables].completees;
+            this.chart.data.datasets[1].data[1] = data[cables].pretes;
+            this.chart.data.datasets[2].data[1] = data[cables].imprimees;
+            this.chart.data.datasets[3].data[1] = data[cables].afaire;
             total_cables = data[cables].completees+data[cables].pretes+data[cables].imprimees+data[cables].afaire;
-            types.data.labels[1] = [total_cables,'Produits câbles'];
+            this.chart.data.labels[1] = [total_cables,'Produits câbles'];
         }
 
         if(typeof data[exts] !== 'undefined' && exts !== -1){
-            types.data.datasets[0].data[2] = data[exts].completees;
-            types.data.datasets[1].data[2] = data[exts].pretes;
-            types.data.datasets[2].data[2] = data[exts].imprimees;
-            types.data.datasets[3].data[2] = data[exts].afaire;
+            this.chart.data.datasets[0].data[2] = data[exts].completees;
+            this.chart.data.datasets[1].data[2] = data[exts].pretes;
+            this.chart.data.datasets[2].data[2] = data[exts].imprimees;
+            this.chart.data.datasets[3].data[2] = data[exts].afaire;
             total_exts = data[exts].completees+data[exts].pretes+data[exts].imprimees+data[exts].afaire;
-            types.data.labels[2] = [total_exts,'Produits extérieurs'];
+            this.chart.data.labels[2] = [total_exts,'Produits extérieurs'];
         }
 
         // vérifier le total des lignes, pour adapter le graphique
@@ -160,12 +167,12 @@ const OrderLinesTypesHook = {
         }
 
         // Update the chart options
-        types.options.scales.y.max = yAxisMax;
+        this.chart.options.scales.y.max = yAxisMax;
 
 
         //types.data.datasets[0].data[2] = data.value;
-        types.update()
-        })
+        this.chart.update()
+
     },
   
   };

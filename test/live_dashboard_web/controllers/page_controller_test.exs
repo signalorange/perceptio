@@ -1,5 +1,5 @@
-defmodule LiveDashboardWeb.PageControllerTest do
-  use LiveDashboardWeb.ConnCase
+defmodule PerceptioWeb.PageControllerTest do
+  use PerceptioWeb.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get(conn, ~p"/")

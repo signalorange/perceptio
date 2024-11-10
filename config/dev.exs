@@ -1,7 +1,7 @@
 import Config
 
 # Configure your database
-config :live_dashboard, LiveDashboard.Repo,
+config :perceptio, Perceptio.Repo,
   adapter: Ecto.Adapters.Tds,
   username: System.get_env("DB_USERNAME"),
   password: System.get_env("DB_PASSWORD"),
@@ -17,7 +17,7 @@ config :live_dashboard, LiveDashboard.Repo,
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we can use it
 # to bundle .js and .css sources.
-config :live_dashboard, LiveDashboardWeb.Endpoint,
+config :perceptio, PerceptioWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
   http: [ip: {0,0,0,0}, port: 4000],
@@ -26,8 +26,8 @@ config :live_dashboard, LiveDashboardWeb.Endpoint,
   debug_errors: true,
   secret_key_base: "3O/GFvzH5Y/VGBLchqnDrJhMw02PwylYtmozeo02pC8vSXxIJobFQzXe4QlXup12",
   watchers: [
-    esbuild: {Esbuild, :install_and_run, [:live_dashboard, ~w(--sourcemap=inline --watch)]},
-    tailwind: {Tailwind, :install_and_run, [:live_dashboard, ~w(--watch)]}
+    esbuild: {Esbuild, :install_and_run, [:perceptio, ~w(--sourcemap=inline --watch)]},
+    tailwind: {Tailwind, :install_and_run, [:perceptio, ~w(--watch)]}
   ]
 
 # ## SSL Support
@@ -54,18 +54,18 @@ config :live_dashboard, LiveDashboardWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :live_dashboard, LiveDashboardWeb.Endpoint,
+config :perceptio, PerceptioWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/(?!uploads/).*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/live_dashboard_web/(controllers|live|components)/.*(ex|heex)$"
+      ~r"lib/perceptio_web/(controllers|live|components)/.*(ex|heex)$"
     ]
   ],
   tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
 
 # Enable dev routes for dashboard and mailbox
-config :live_dashboard, dev_routes: true
+config :perceptio, dev_routes: true
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"

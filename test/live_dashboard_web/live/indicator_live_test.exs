@@ -1,8 +1,8 @@
-defmodule LiveDashboardWeb.IndicatorLiveTest do
-  use LiveDashboardWeb.ConnCase
+defmodule PerceptioWeb.IndicatorLiveTest do
+  use PerceptioWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import LiveDashboard.DashboardFixtures
+  import Perceptio.DashboardFixtures
 
   @create_attrs %{description: "some description"}
   @update_attrs %{description: "some updated description"}

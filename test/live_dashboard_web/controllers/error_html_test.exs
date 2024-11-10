@@ -1,14 +1,14 @@
-defmodule LiveDashboardWeb.ErrorHTMLTest do
-  use LiveDashboardWeb.ConnCase, async: true
+defmodule PerceptioWeb.ErrorHTMLTest do
+  use PerceptioWeb.ConnCase, async: true
 
   # Bring render_to_string/4 for testing custom views
   import Phoenix.Template
 
   test "renders 404.html" do
-    assert render_to_string(LiveDashboardWeb.ErrorHTML, "404", "html", []) == "Not Found"
+    assert render_to_string(PerceptioWeb.ErrorHTML, "404", "html", []) == "Not Found"
   end
 
   test "renders 500.html" do
-    assert render_to_string(LiveDashboardWeb.ErrorHTML, "500", "html", []) == "Internal Server Error"
+    assert render_to_string(PerceptioWeb.ErrorHTML, "500", "html", []) == "Internal Server Error"
   end
 end

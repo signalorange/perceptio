@@ -20,10 +20,10 @@
 - [ ] page d'accueil
 - [ ] dashboard de gestion/coûts/marges
 - [ ] dashboard de coupes de câbles
-- [ ] réduire les ressources SQL
-    - [ ] remplacer les requests SQL par quelque unes au niveau serveur, qui remplissent une table ETS périodiquement (1m-5min)
-        - [ ] traitement de données à ce niveau
+- [x] réduire les ressources SQL
+    - [x] remplacer les requests SQL par quelque unes au niveau serveur, qui remplissent une table ETS périodiquement (1m-5min)
+        - [x] traitement de données à ce niveau
         - [ ] définition d'une API
     - [ ] les components vont être updaté en temps réel basé sur la table ETS pour tous les clients en même temps avec pub/sub
 - [ ] Changer les couleurs pour une liste globale
-    - [ ] adapter pour être colorblind-friendly
+    - [x] adapter pour être colorblind-friendly

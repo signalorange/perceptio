@@ -1,7 +1,7 @@
-defmodule LiveDashboard.DashboardFixtures do
+defmodule Perceptio.DashboardFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `LiveDashboard.Dashboard` context.
+  entities via the `Perceptio.Dashboard` context.
   """
 
   @doc """
@@ -13,7 +13,7 @@ defmodule LiveDashboard.DashboardFixtures do
       |> Enum.into(%{
         description: "some description"
       })
-      |> LiveDashboard.Dashboard.create_indicator()
+      |> Perceptio.Dashboard.create_indicator()
 
     indicator
   end

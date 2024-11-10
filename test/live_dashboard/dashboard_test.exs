@@ -1,12 +1,12 @@
-defmodule LiveDashboard.DashboardTest do
-  use LiveDashboard.DataCase
+defmodule Perceptio.DashboardTest do
+  use Perceptio.DataCase
 
-  alias LiveDashboard.Dashboard
+  alias Perceptio.Dashboard
 
   describe "indicators" do
-    alias LiveDashboard.Dashboard.Indicator
+    alias Perceptio.Dashboard.Indicator
 
-    import LiveDashboard.DashboardFixtures
+    import Perceptio.DashboardFixtures
 
     @invalid_attrs %{description: nil}
 

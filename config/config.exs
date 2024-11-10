@@ -7,19 +7,19 @@
 # General application configuration
 import Config
 
-config :live_dashboard,
-  ecto_repos: [LiveDashboard.Repo],
+config :perceptio,
+  ecto_repos: [Perceptio.Repo],
   generators: [timestamp_type: :utc_datetime]
 
 # Configures the endpoint
-config :live_dashboard, LiveDashboardWeb.Endpoint,
+config :perceptio, PerceptioWeb.Endpoint,
   http: [ip: {0,0,0,0}],
   adapter: Bandit.PhoenixAdapter,
   render_errors: [
-    formats: [html: LiveDashboardWeb.ErrorHTML, json: LiveDashboardWeb.ErrorJSON],
+    formats: [html: PerceptioWeb.ErrorHTML, json: PerceptioWeb.ErrorJSON],
     layout: false
   ],
-  pubsub_server: LiveDashboard.PubSub,
+  pubsub_server: Perceptio.PubSub,
   live_view: [signing_salt: "/KN+jJOH"]
 
 # Configures the mailer
@@ -29,12 +29,12 @@ config :live_dashboard, LiveDashboardWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :live_dashboard, LiveDashboard.Mailer, adapter: Swoosh.Adapters.Local
+config :perceptio, Perceptio.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.17.11",
-  live_dashboard: [
+  perceptio: [
     args:
       ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
     cd: Path.expand("../assets", __DIR__),
@@ -44,7 +44,7 @@ config :esbuild,
 # Configure tailwind (the version is required)
 config :tailwind,
   version: "3.4.3",
-  live_dashboard: [
+  perceptio: [
     args: ~w(
       --config=tailwind.config.js
       --input=css/app.css
