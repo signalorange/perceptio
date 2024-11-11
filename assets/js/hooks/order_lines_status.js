@@ -15,24 +15,25 @@ const OrderLinesStatusHook = {
       },
 
     initChart(){
-        const livrees = 'rgba(34, 136, 51, 1)' // vert
-        const restantes = 'rgba(149, 97, 226, 1)' // mauve
-        const pickees = 'rgba(238, 102, 119, 1)' //rose
-        const pretes = 'rgba(204, 187, 68, 1)' // jaune
-        const imprimees = 'rgba(102, 204, 238, 1)' // bleu pale
-        const a_faire = 'rgba(68, 119, 170, 1)' // bleu
+        const livrees = 'rgba(34, 136, 51, 1)' // vert 228833
+        const restantes = 'rgba(149, 97, 226, 1)' // mauve 9561e2
+        const pickees = 'rgba(232, 34, 34, 1)' // rouge e22222
+        //const pretes = 'rgba(232, 90, 0, 1)'// orange e85a00
+        const pretes = 'rgba(239, 185, 7, 1)' // jaune efb907
+        //const imprimees = 'rgba(239, 185, 7, 1)' // jaune efb907
+        const imprimees = 'rgba(34, 136, 51, 1)' // vert 228833
+        const a_faire = 'rgba(39, 79, 221, 1)' // bleu 274fdd
 
         const ctx = document.getElementById('pie-chart').getContext('2d');
         this.chart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: [ 'Livrées', 'Restantes', 'Pickées', 'Prêtes', 'Imprimées', 'À faires'],
+            labels: ['Pickées', 'Prêtes', 'Imprimées', 'À faires'],
             datasets: [{
             label: 'Lignes',
             data: [ 0, 0, 0, 0, 0, 0],
             backgroundColor: [
-                livrees,
-                restantes,
+                //restantes,
                 pickees, 
                 pretes,
                 imprimees, 
@@ -94,22 +95,22 @@ const OrderLinesStatusHook = {
     convertData(data) {
         // Update the DOM with the fetched data
         if(typeof data !== 'undefined'){
-            this.chart.data.datasets[0].data[0] = data[0].livrees;
-            this.chart.data.labels[0] = [data[0].livrees,'Livrées'];
-            this.chart.data.datasets[0].data[1] = (data[0].total-data[0].livrees);
-            this.chart.data.labels[1] = [(data[0].total-data[0].livrees),'Restantes'];
-            this.chart.data.datasets[0].data[2] = data[0].completees;
-            this.chart.data.labels[2] = [data[0].completees,'Pickées'];
-            this.chart.data.datasets[0].data[3] = data[0].pretes;
-            this.chart.data.labels[3] = [data[0].pretes,'Prêtes'];
-            this.chart.data.datasets[0].data[4] = data[0].imprimees;
-            this.chart.data.labels[4] = [data[0].imprimees,'Imprimées'];
-            this.chart.data.datasets[0].data[5] = data[0].afaire;
-            this.chart.data.labels[5] = [data[0].afaire,'À faires'];
+            //this.chart.data.datasets[0].data[0] = data[0].livrees;
+            //this.chart.data.labels[0] = [data[0].livrees,'Livrées'];
+            //this.chart.data.datasets[0].data[0] = (data[0].total-data[0].livrees);
+            //this.chart.data.labels[0] = [(data[0].total-data[0].livrees),'Restantes'];
+            this.chart.data.datasets[0].data[0] = data[0].completees;
+            this.chart.data.labels[0] = [data[0].completees,'Pickées'];
+            this.chart.data.datasets[0].data[1] = data[0].pretes;
+            this.chart.data.labels[1] = [data[0].pretes,'Prêtes'];
+            this.chart.data.datasets[0].data[2] = data[0].imprimees;
+            this.chart.data.labels[2] = [data[0].imprimees,'Imprimées'];
+            this.chart.data.datasets[0].data[3] = data[0].afaire;
+            this.chart.data.labels[3] = [data[0].afaire,'À faires'];
 
             // vérifier le total des lignes, pour adapter le graphique
-                const maxTotal = Math.max(data[0].livrees, 
-                    (data[0].total-data[0].livrees), 
+                const maxTotal = Math.max(//data[0].livrees, 
+                    //(data[0].total-data[0].livrees), 
                     data[0].completees,
                     data[0].imprimees,
                     data[0].afaire

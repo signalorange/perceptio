@@ -15,12 +15,14 @@ const OrderLinesRoutesHook = {
       },
 
     initChart() {
-        const livrees = 'rgba(34, 136, 51, 1)' // vert
-        const restantes = 'rgba(149, 97, 226, 1)' // mauve
-        const pickees = 'rgba(238, 102, 119, 1)' //rose
-        const pretes = 'rgba(204, 187, 68, 1)' // jaune
-        const imprimees = 'rgba(102, 204, 238, 1)' // bleu pale
-        const a_faire = 'rgba(68, 119, 170, 1)' // bleu
+        const livrees = 'rgba(34, 136, 51, 1)' // vert 228833
+        const restantes = 'rgba(149, 97, 226, 1)' // mauve 9561e2
+        const pickees = 'rgba(232, 34, 34, 1)' // rouge e22222
+        //const pretes = 'rgba(232, 90, 0, 1)'// orange e85a00
+        const pretes = 'rgba(239, 185, 7, 1)' // jaune efb907
+        //const imprimees = 'rgba(239, 185, 7, 1)' // jaune efb907
+        const imprimees = 'rgba(34, 136, 51, 1)' // vert 228833
+        const a_faire = 'rgba(39, 79, 221, 1)' // bleu 274fdd
         
         // Stacked chart for routes
         const routeCtx = document.getElementById('route-chart').getContext('2d');
