@@ -2,7 +2,7 @@ defmodule Perceptio.DataStore do
   use GenServer
   alias Phoenix.PubSub
 
-  @refresh_interval :timer.seconds(300) # 5 minutes
+  @refresh_interval :timer.seconds(60) # 5 minutes
 
   def start_link(_) do
     GenServer.start_link(__MODULE__, [], name: __MODULE__)

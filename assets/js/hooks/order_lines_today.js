@@ -8,7 +8,7 @@ const OrderLinesTodayHook = {
     },
     updated() {
         const newData = JSON.parse(this.el.dataset.chart)
-        console.log("update received, order_lines_today", newData);
+        //console.log("update received, order_lines_today", newData);
         this.convertData(newData)
       },
   

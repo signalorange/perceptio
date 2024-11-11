@@ -3,7 +3,8 @@ services:
     build: .
     environment:
       MIX_ENV: prod
-      PHX_HOST: 0.0.0.0
+      PHX_HOST: localhost
+      PORT: 4000
     env_file:
       - .env
     restart: unless-stopped

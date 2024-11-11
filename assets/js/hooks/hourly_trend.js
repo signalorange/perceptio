@@ -9,7 +9,7 @@ const HourlyTrendHook = {
     },
 
     updated() {
-        console.log("update received, order_lines_status", newData);
+        //console.log("update received, order_lines_status", newData);
         const chartDataToday = JSON.parse(this.el.dataset.chart_today)
         const chartDataWeek = JSON.parse(this.el.dataset.chart_week)
         this.convertData(chartDataToday, chartDataWeek);

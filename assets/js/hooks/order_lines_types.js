@@ -10,7 +10,7 @@ const OrderLinesTypesHook = {
 
     updated() {
         const newData = JSON.parse(this.el.dataset.chart)
-        console.log("update received, order_lines_status", newData);
+        //console.log("update received, order_lines_status", newData);
         this.convertData(newData)
       },
   
@@ -158,7 +158,9 @@ const OrderLinesTypesHook = {
 
         // Adjust the y-axis scale
         let yAxisMax;
-        if (maxTotal <= 100) {
+        if (maxTotal <= 50) {
+            yAxisMax = 50;
+        } else if (maxTotal <= 100) {
             yAxisMax = 100;
         } else if (maxTotal <= 200) {
             yAxisMax = 200;
