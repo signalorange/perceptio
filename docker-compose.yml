@@ -2,12 +2,10 @@ services:
   perceptio:
     build: .
     environment:
-      MIX_ENV: dev
+      MIX_ENV: prod
       PHX_HOST: 0.0.0.0
     env_file:
       - .env
     restart: unless-stopped
     ports:
       - '80:4000'
-    volumes:
-      - .:/app
