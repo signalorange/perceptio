@@ -1,5 +1,6 @@
 services:
   perceptio:
+    container_name: perceptio
     build: .
     environment:
       MIX_ENV: prod
