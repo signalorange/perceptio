@@ -4,6 +4,7 @@ defmodule PerceptioWeb.Components.HourlyTrend do
 
   def update(assigns, socket) do
     {:ok, assign(socket,
+      chart_data_live:  assigns.chart_data_live,
       chart_data_today: assigns.chart_data_today,
       chart_data_week: assigns.chart_data_week)
     }
@@ -11,6 +12,7 @@ defmodule PerceptioWeb.Components.HourlyTrend do
 
   def mount(assigns, socket) do
     {:ok, assign(socket,
+      chart_data_live:  assigns.chart_data_live,
       chart_data_today: assigns.chart_data_today,
       chart_data_week: assigns.chart_data_week)
     }
@@ -20,6 +22,7 @@ defmodule PerceptioWeb.Components.HourlyTrend do
     ~H"""
     <div id="hourly-trend"
         phx-hook="HourlyTrend"
+        data-chart_live={Jason.encode!(@chart_data_live)}
         data-chart_today={Jason.encode!(@chart_data_today)}
         data-chart_week={Jason.encode!(@chart_data_week)}
         class="bg-white shadow-md rounded-lg p-3 col-span-2 px-2">

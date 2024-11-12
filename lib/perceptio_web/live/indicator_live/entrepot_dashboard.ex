@@ -59,6 +59,7 @@ defmodule PerceptioWeb.IndicatorLive.EntrepotDashboard do
                           chart_data={@order_lines_status} />
           <.live_component module={PerceptioWeb.Components.HourlyTrend}
                           id="hourly-trend"
+                          chart_data_live={@order_lines_status}
                           chart_data_today={@hourly_trend_today}
                           chart_data_week={@hourly_trend_week} />
         </div>

@@ -3,16 +3,18 @@
 const HourlyTrendHook = {
     mounted() {
         this.initChart()
+        const chartDataLive = JSON.parse(this.el.dataset.chart_live)
         const chartDataToday = JSON.parse(this.el.dataset.chart_today)
         const chartDataWeek = JSON.parse(this.el.dataset.chart_week)
-        this.convertData(chartDataToday, chartDataWeek);
+        this.convertData(chartDataLive, chartDataToday, chartDataWeek);
     },
 
     updated() {
         //console.log("update received, order_lines_status", newData);
+        const chartDataLive = JSON.parse(this.el.dataset.chart_live)
         const chartDataToday = JSON.parse(this.el.dataset.chart_today)
         const chartDataWeek = JSON.parse(this.el.dataset.chart_week)
-        this.convertData(chartDataToday, chartDataWeek);
+        this.convertData(chartDataLive, chartDataToday, chartDataWeek);
     },
 
     initChart(){
@@ -93,7 +95,7 @@ const HourlyTrendHook = {
         })
     },
 
-    convertData(today, week) {
+    convertData(live, today, week) {
         const labels = ['05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '00', '01', '02', '03', '04']
         
         const updatedData = Array(labels.length).fill(null);
@@ -146,6 +148,8 @@ const HourlyTrendHook = {
         });
           //trends.data.datasets[1].data = total;
           this.chart.data.datasets[1].data = restantes;
+          // ajoute la valeur live
+          this.chart.data.datasets[1].data[roundedHourIndex] = (live[0].total -  live[0].livrees);
           //trends.data.datasets[2].data = livrees;
           //trends.data.datasets[3].data = completees;
           //trends.data.datasets[4].data = imprimees;
