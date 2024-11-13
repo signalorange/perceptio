@@ -28,7 +28,7 @@ const HourlyTrendHook = {
             labels: labels,
             datasets: [
                 {
-                label: 'Moyenne 7 jours (lignes restantes)',
+                label: 'Moyenne 14 jours (lignes restantes)',
                 data: Array(labels.length).fill(0),
                 borderColor: 'rgba(96, 125, 139, 0.5)',
                 borderDash: [5, 5],
