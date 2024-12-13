@@ -99,8 +99,9 @@ defmodule Perceptio.DataStore do
               select
                   ve_livraisons_ln.id
               from ve_livraisons_ln with(nolock)
-              inner join xx_usagers with(nolock) on xx_usagers.id = ve_livraisons_ln.created_by
-              where xx_usagers.xx_groupes_id in ('ENTREPOT', 'ENTREPOT_INVENTAIRE', 'SUPERVISEUR_ENTREPOT')
+              --inner join xx_usagers with(nolock) on xx_usagers.id = ve_livraisons_ln.created_by
+              --where xx_usagers.xx_groupes_id in ('ENTREPOT', 'ENTREPOT_INVENTAIRE', 'SUPERVISEUR_ENTREPOT')
+              where ve_livraisons_ln.In_localisations_id = '_2CD172BBB'
                 AND ve_livraisons_ln.qte > 0
                 AND ve_livraisons_ln.isstock = 1
                 and ve_livraisons_ln.type = 0
