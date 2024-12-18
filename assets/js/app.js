@@ -29,6 +29,7 @@ import HourlyTrendHook from "./hooks/hourly_trend"
 import OrderLinesStatusHook from "./hooks/order_lines_status"
 import OrderLinesTypesHook from "./hooks/order_lines_types";
 import OrderLinesRoutesHook from "./hooks/order_lines_routes"
+import MapboxInteraction from "./hooks/map_live";
 
 let Hooks = {
     OrderLinesToday: OrderLinesTodayHook,
@@ -36,6 +37,7 @@ let Hooks = {
     OrderLinesStatus: OrderLinesStatusHook,
     OrderLinesTypes: OrderLinesTypesHook,
     OrderLinesRoutes: OrderLinesRoutesHook,
+    MapboxInteraction: MapboxInteraction,
   // ... other hooks
 }
 

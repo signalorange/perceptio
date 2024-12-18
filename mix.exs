@@ -56,7 +56,9 @@ defmodule Perceptio.MixProject do
       {:heroicons, "~> 0.5.5"},
        {:httpoison, "~> 1.8"},
        {:petal_components, "~> 1.0"},
-       {:cors_plug, "~> 3.0"}
+       {:cors_plug, "~> 3.0"},
+       {:tesla, "~> 1.7.0"},
+    {:hackney, "~> 1.18"} # HTTP client for Tesla
     ]
   end
 
