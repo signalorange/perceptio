@@ -28,3 +28,9 @@
 - [ ] Changer les couleurs pour une liste globale
     - [x] adapter pour être colorblind-friendly
 - [x] faire un release en production pour docker
+- [ ] Page de livraison
+-   - [ ] Voir les livraisons et commandes géocodées live
+    - [ ] Isoler les erreurs (commande != zone), correction manuelle
+    - [ ] Isoler les À déterminer, possibilité de correction automatique
+    - [ ] Géocodage manuel par numéro de commande/livraison
+    - [ ] Afficher les infos de la commande (expéditions) sur le pin point
