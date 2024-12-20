@@ -1,16 +1,26 @@
  <header class="px-4 sm:px-6 lg:px-8 bg-white border-b border-[#DE9043] mb-4">
   <div class="flex items-center justify-between border-b border-zinc-100 py-3 text-sm">
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-6">
       <a href="https://signalorange.tech">
       
         <img src={~p"/images/logo_2024.png"}  width="80" />
       </a>
-      <b><a href="https://github.com/signalorange/perceptio">Perceptio</a></b>
-      <span class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">2024-stable-14</span>
-                
+      <div class="flex flex-col">
+        <b><a href="https://github.com/signalorange/perceptio"><span class="inline-flex items-center px-2">Perceptio</span></a></b>
+        <span class="inline-flex items-center rounded-md bg-gray-50 px-2 text-xs font-small text-gray-600 ring-1 ring-inset ring-gray-500/10">2025-stable-01</span>
+      </div>
+         
+    <%!-- </div>
+    <div class="flex items-center gap-4 font-semibold leading-6 text-zinc-900"> --%>
+    <span>|</span>
+      <nav class="flex gap-4">
+        <a href={~p"/entrepot"} class="hover:text-[#DE9043]">Tableau de bord</a>
+        <a href={~p"/cables"} class="hover:text-[#DE9043]">Coupes de câbles</a>
+        <a href={~p"/exterieurs"} class="hover:text-[#DE9043]">Extérieurs</a>
+        <a href={~p"/livraisons"} class="hover:text-[#DE9043]">Routes de livraisons</a>
+      </nav>
     </div>
-    <div class="flex items-center gap-4 font-semibold leading-6 text-zinc-900">
-    </div>
+
   </div>
 </header> 
 <main >

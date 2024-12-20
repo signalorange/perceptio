@@ -18,8 +18,8 @@ defmodule PerceptioWeb.Router do
     pipe_through :browser
     get "/", RedirectController, :redirector
     live "/entrepot", IndicatorLive.EntrepotDashboard
-    live "/cable_dashboard", IndicatorLive.CableDashboardLive
-    live "/livraison", IndicatorLive.MapLive
+    live "/cables", IndicatorLive.CableDashboardLive
+    live "/livraisons", IndicatorLive.MapLive
   end
 
   scope "/api", PerceptioWeb do
